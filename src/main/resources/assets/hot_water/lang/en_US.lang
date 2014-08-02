@@ -1,0 +1,17 @@
+tile.hot_water.name=Hot Water
+item.bucket_hot_water.name=Hot Water Bucket
+tile.super_lava.name=Super-Heated Lava
+item.bucket_superlava.name=Super-Heated Lava Bucket
+tile.hot_spring_water.name=Spring Water
+item.bucket_spring_water.name=Spring Water Bucket
+
+item.boiled_flesh.name=Boiled Flesh
+item.detoxified_spider_eyes.name=Detoxified Spider Eyes
+item.boiled_leather.name= Boiled Leather
+
+death.attack.hot_water.boiled=%1$s boiled to death 
+death.attack.hot_water.boiled.player=%1$s was perfectly steamed whilst fighting %2$s <3
+death.attack.hot_water.Melted=%1$s melted
+death.attack.hot_water.Melted.player=%1$s melted whilst fight %2$s
+
+itemGroup.HotWater=Hot Water Mod
