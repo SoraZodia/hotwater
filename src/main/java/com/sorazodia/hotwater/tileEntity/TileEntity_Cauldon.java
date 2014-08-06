@@ -1,8 +1,6 @@
 package com.sorazodia.hotwater.tileEntity;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
@@ -16,7 +14,15 @@ public class TileEntity_Cauldon extends TileEntity implements IFluidHandler{
     {
     
     }
-	
+	 @Override
+     public void readFromNBT(NBTTagCompound nbt) {
+		 super.readFromNBT(nbt);
+	 }
+	 
+	 @Override
+     public void writeToNBT(NBTTagCompound nbt) {
+		 super.writeToNBT(nbt);
+	 }
 	
 	@Override
 	public boolean canDrain(ForgeDirection dir, Fluid fluid) {
