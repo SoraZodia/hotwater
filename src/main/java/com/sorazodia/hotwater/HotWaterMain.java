@@ -1,11 +1,7 @@
 package com.sorazodia.hotwater;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -13,10 +9,8 @@ import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenBase.Height;
-import net.minecraft.world.gen.feature.WorldGenLakes;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.MinecraftForge;
@@ -32,11 +26,13 @@ import com.sorazodia.hotwater.blocks.BlockSpringWater;
 import com.sorazodia.hotwater.blocks.BlockSuperLava;
 import com.sorazodia.hotwater.items.ItemBlock;
 import com.sorazodia.hotwater.items.ItemModBucket;
+import com.sorazodia.hotwater.tileEntity.TileEntity_Cauldon;
 import com.sorazodia.hotwater.worldGen.BiomeHotSpring;
 
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -45,62 +41,75 @@ import cpw.mods.fml.relauncher.SideOnly;
 @Mod(name = "Hot Water Mod", modid = HotWaterMain.MODID, version = HotWaterMain.VERSION)
 public class HotWaterMain {
 	
+//MODID info
 public static final String MODID = "hot_water";
 public static final String VERSION = "1.0.3";
+
+//Mod names
 private static final String Water_Name = "hot_water";
 private static final String SuperLava_Name = "super_lava";
 private static final String SpringWater_Name = "hot_spring_water";
 private static final String Cauldon_Name = "cauldron";
 
+//Fluids
 public Fluid hotWater = new Fluid(Water_Name).setDensity(999).setTemperature(373).setViscosity(682);
+public Fluid superlava = new Fluid(SuperLava_Name).setDensity(999).setTemperature(6150).setViscosity(682);
+public Fluid springWater = new Fluid(SpringWater_Name).setDensity(999).setTemperature(373).setViscosity(682);
+
+//Blocks
 public static Block BlockHotWater;
 public static Block BlockSpringWater;
-public static Item hot_water_bucket; 
-public static DamageSource Boiled = new DamageSource("hot_water.boiled");
-
 public static Block BlockBoilingCauldon;
-public static Item cauldon;
-
-public Fluid superlava = new Fluid(SuperLava_Name).setDensity(999).setTemperature(6150).setViscosity(682);
 public static Block BlockSuperLava;
-public static Item superlava_bucket; 
-public static DamageSource Melted = new DamageSource("hot_water.Melted").setFireDamage();
-public static final Material Superlava = new MaterialLiquid(MapColor.tntColor);
 
-public static Fluid springWater = new Fluid(SpringWater_Name).setDensity(999).setTemperature(373).setViscosity(682);
-
+//Items
+public static Item hot_water_bucket; 
+public static Item cauldon;
 public static Item spring_water_bucket; 
+public static Item superlava_bucket;
 
-public static BiomeGenBase BiomeHotSpring;
+//ItemStacks
+private ItemStack blazerod = new ItemStack(Items.blaze_rod);
+private ItemStack iron = new ItemStack(Items.iron_ingot);
 
-
+//Food
 public static ItemFood boiled_flesh;
 public static ItemFood detoxified_spider_eyes;
 public static ItemFood boiled_leather;
 
+//DamageSource
+public static DamageSource Boiled = new DamageSource("hot_water.boiled");
+public static DamageSource Melted = new DamageSource("hot_water.Melted").setFireDamage().setDamageBypassesArmor().setDamageIsAbsolute();
+
+//Biome
+public static BiomeGenBase BiomeHotSpring;
+
+//Booleans
 public boolean enableSuperLava;
+public boolean enableWIPFeatures;
 
 	@EventHandler
 	public void PreInit(FMLPreInitializationEvent event){
 
 		//Configs and variables
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
-	    int BiomeID = config.get(Configuration.CATEGORY_GENERAL, "BiomeID", 35).getInt();
-	    enableSuperLava = config.get(Configuration.CATEGORY_GENERAL, "enableSuperLava", false).getBoolean(false);			    
+	    int BiomeID = config.get(Configuration.CATEGORY_GENERAL, "BiomeID For Hot Springs", 35).getInt();
+	    enableSuperLava = config.get(Configuration.CATEGORY_GENERAL, "Enable Super Lava Easter Egg", false).getBoolean();			    
+	    enableWIPFeatures = config.getBoolean(Configuration.CATEGORY_GENERAL, "Enable WIP Features", false, "This is mainly for testing in a DEV ENVIRONMENT, DO NOT ENABLE");
 	    
 	    //Fluid Registation
 		FMLLog.info("[Hot Water] Registering the New Fluid");
 		FluidRegistry.registerFluid(hotWater);	
 		FluidRegistry.registerFluid(springWater);
 		FMLLog.info("[Hot Water] New Fluid Registered");
-		
-		//Block variables
-		FMLLog.info("[Hot Water] Registering the Hot Water, Spring Water, (WIP)Cauldon Block");
-		BlockSpringWater = new BlockSpringWater(springWater, Material.water).setBlockName(SpringWater_Name).setHardness(100F);			
-		BlockHotWater = new BlockHotWater(hotWater, Material.water).setBlockName(Water_Name).setHardness(100F);
-		BlockBoilingCauldon = new BlockBoilingCauldon().setBlockTextureName("cauldron").setBlockName("Cauldon");
-		FMLLog.info("[Hot Water] Hot Water, Spring Water, and (WIP)Cauldon Registered");
-		
+	    
+	    //Block variables
+	  	FMLLog.info("[Hot Water] Registering the Hot Water, Spring Water, (WIP)Cauldon Block");
+	  	BlockSpringWater = new BlockSpringWater(springWater, Material.water).setBlockName(SpringWater_Name).setHardness(100F);			
+	  	BlockHotWater = new BlockHotWater(hotWater, Material.water).setBlockName(Water_Name).setHardness(100F);
+	  	BlockBoilingCauldon = new BlockBoilingCauldon().setBlockName("Cauldon");
+	  	FMLLog.info("[Hot Water] Hot Water, Spring Water, and (WIP)Cauldon Registered");
+	  	
 		//Food Registations
 		FMLLog.info("[Hot Water] Registering the Foods");
 		boiled_flesh = (ItemFood) new ItemFood(4, 1.0F, true).setUnlocalizedName("boiled_flesh").setTextureName("rotten_flesh").setCreativeTab(HotWaterMain.hotWaterTab);
@@ -117,11 +126,12 @@ public boolean enableSuperLava;
 		GameRegistry.registerBlock(BlockHotWater, Water_Name);
 		GameRegistry.registerBlock(BlockSpringWater, SpringWater_Name);
 		GameRegistry.registerBlock(BlockBoilingCauldon, Cauldon_Name);
+		GameRegistry.registerTileEntity(TileEntity_Cauldon.class, "hotwater_cauldon");
 		FMLLog.info("[Hot Water] Blocks Registered");
 		
 		//Item Registations
 		FMLLog.info("[Hot Water] Registering New Item");
-		cauldon = new ItemBlock(BlockBoilingCauldon, "This is WIP, expect derps").setUnlocalizedName("cauldron").setTextureName("cauldron").setCreativeTab(HotWaterMain.hotWaterTab);
+		cauldon = new ItemBlock(BlockBoilingCauldon, "WIP, Not Ready for use").setUnlocalizedName("cauldron").setTextureName("cauldron").setCreativeTab(HotWaterMain.hotWaterTab);
 		GameRegistry.registerItem(cauldon, "Cauldron", HotWaterMain.MODID);
 		FMLLog.info("[Hot Water] New Item Registered");
 		
@@ -148,20 +158,24 @@ public boolean enableSuperLava;
 	    
 	    //Config Stuffs
 	    if(enableSuperLava){	    
+	    FluidRegistry.registerFluid(superlava);
+	    	
 	    FMLLog.info("[Hot Water] Adding in Super Lava, I hope you know what you're doing >:)");	
-	    FluidRegistry.registerFluid(superlava);		
-		BlockSuperLava = new BlockSuperLava(superlava, Material.lava).setBlockName(SuperLava_Name).setHardness(100F).setLightLevel(10.0F);
-	    GameRegistry.registerBlock(BlockSuperLava, SuperLava_Name);
-	    
-	    superlava_bucket = new ItemModBucket(BlockSuperLava, "Ahhh... How did you find this...","I though my toy was hidden...").setTextureName("bucket_lava").setUnlocalizedName("bucket_superlava").setCreativeTab(HotWaterMain.hotWaterTab);
+	    BlockSuperLava = new BlockSuperLava(superlava, Material.lava).setBlockName(SuperLava_Name).setHardness(100F).setLightLevel(10.0F);
+	    superlava_bucket = new ItemModBucket(BlockSuperLava, "Ahhh... How did you find this...","I though my toy was hidden...").setTextureName("bucket_lava").setUnlocalizedName("bucket_superlava").setCreativeTab(HotWaterMain.hotWaterTab);	    
+	   
+	    GameRegistry.registerBlock(BlockSuperLava, SuperLava_Name);     
 		GameRegistry.registerItem(superlava_bucket, "bucket_superlava", MODID);
 		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(SuperLava_Name, FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(superlava_bucket), new ItemStack(Items.bucket));
 	    
 		BucketHandler.INSTANCE.buckets.put(BlockSuperLava, superlava_bucket);
 		
 	    GameRegistry.addSmelting(Items.lava_bucket, new ItemStack(superlava_bucket), 0.5F); 
+	    
 	    FMLLog.info("[Hot Water] Super Lava Added");
-	    }else{}
+	    }
+	    else{
+	    }
 	    
 	    //Biome Registations
 	    FMLLog.info("[Hot Water] Adding new Spring Biome (BECUASE WORLDGEN IS HARD D:)");
@@ -179,6 +193,15 @@ public boolean enableSuperLava;
 		FMLLog.info("[Hot Water] Cooking Recipes and Fuel Registered");
 		FMLLog.info("[Hot Water] Finished");
 		
+	}
+	
+	@EventHandler
+	public void Init(FMLInitializationEvent event){
+		if(enableWIPFeatures){
+		FMLLog.info("[Hot Water Dev] Adding in WIP Stuff");
+		GameRegistry.addShapedRecipe(new ItemStack(cauldon, 1), "I I","IBI","III", 'I', iron, 'B', blazerod);
+		FMLLog.info("[Hot Water Dev] Added");
+		}
 	}
 	
 	public static CreativeTabs hotWaterTab = new CreativeTabs("HotWater"){	
