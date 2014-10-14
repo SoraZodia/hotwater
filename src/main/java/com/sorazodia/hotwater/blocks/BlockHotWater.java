@@ -103,17 +103,18 @@ public class BlockHotWater extends BlockFluidClassic{
         
 	} 
 	 
-	 protected void WaterEffect(World world, int x, int y, int z, int type)
-	    {
-		 world.playSoundEffect((float)x + 0.5F, (float)y + 0.5F, (float)z + 0.5F, "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
-	        for(int l = 0; l < 1; l++)
-	        	if(type == 1){
-	        	world.spawnParticle("largesmoke", (double)x + Math.random(), (double)y + 1.2D, (double)z + Math.random(), 0.0D, 0.0D, 0.0D);
-	        	}
-             if(type == 2){
-             	world.spawnParticle("cloud", (double)x + Math.random(), (double)y + 1.2D, (double)z + Math.random(), 0.0D, 0.0D, 0.0D);
-             }
-	    }	 
+	protected void WaterEffect(World world, int x, int y, int z, int type)
+	{
+		world.playSoundEffect((float)x + 0.5F, (float)y + 0.5F, (float)z + 0.5F, "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+		for(int l = 0; l < 1; l++){
+			if(type == 1){
+				world.spawnParticle("largesmoke", (double)x + Math.random(), (double)y + 1.2D, (double)z + Math.random(), 0.0D, 0.0D, 0.0D);
+			}
+			if(type == 2){
+				world.spawnParticle("cloud", (double)x + Math.random(), (double)y + 1.2D, (double)z + Math.random(), 0.0D, 0.0D, 0.0D);
+			}
+		}
+	}	 
 
 	@Override
 	public IIcon getIcon (int side, int meta){
