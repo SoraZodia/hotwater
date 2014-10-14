@@ -16,6 +16,7 @@ import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 
 import com.sorazodia.hotwater.HotWaterMain;
+import com.sorazodia.hotwater.registry.ItemRegistry;
 
 public class BlockHotWater extends BlockFluidClassic{
 
@@ -87,17 +88,17 @@ public class BlockHotWater extends BlockFluidClassic{
         if(((EntityItem)entity).getEntityItem().getItem() == Items.rotten_flesh){
         	WaterEffect(world, x, y, z, 2);
        	    entity.setDead();
-       	    entity.entityDropItem(new ItemStack(HotWaterMain.boiled_flesh), 0F);
+       	    entity.entityDropItem(new ItemStack(ItemRegistry.boiled_flesh), 0F);
         }
         if(((EntityItem)entity).getEntityItem().getItem() == Items.spider_eye){
         	WaterEffect(world, x, y, z, 2);
        	    entity.setDead();
-       	    entity.entityDropItem(new ItemStack(HotWaterMain.detoxified_spider_eyes), 0F);
+       	    entity.entityDropItem(new ItemStack(ItemRegistry.detoxified_spider_eyes), 0F);
         }
         if(((EntityItem)entity).getEntityItem().getItem() == Items.leather){
         	WaterEffect(world, x, y, z, 2);
        	    entity.setDead();
-       	    entity.entityDropItem(new ItemStack(HotWaterMain.boiled_leather), 0F);
+       	    entity.entityDropItem(new ItemStack(ItemRegistry.boiled_leather), 0F);
         }
         
 	} 

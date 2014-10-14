@@ -32,11 +32,11 @@ public class BlockBoilingCauldon extends BlockContainer{
 	    }
 
 	 public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9){
-		 ItemStack playeritem = player.getCurrentEquippedItem();
-		 FluidStack fluid = FluidContainerRegistry.getFluidForFilledItem(playeritem);
-		NBTTagCompound nbt =  new NBTTagCompound();
-		int test=0;
+		ItemStack playeritem = player.getCurrentEquippedItem();
+		FluidStack fluid = FluidContainerRegistry.getFluidForFilledItem(playeritem);	
 		if(playeritem != null && !world.isRemote){
+			TileEntity_Cauldon cauldon = new TileEntity_Cauldon();
+			cauldon.inputPotionItems(playeritem);
 			playeritem.stackSize--;
 		}
 		 return true;

@@ -10,7 +10,7 @@ import com.sorazodia.hotwater.HotWaterMain;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class SpringGen {
+public class WorldGenRocks {
 
 	Random rand = new Random();
 
