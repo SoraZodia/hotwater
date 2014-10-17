@@ -19,9 +19,10 @@ public class RegistryFluid {
 	public static void register(){
 		FluidRegistry.registerFluid(hotWater);	
 		FluidRegistry.registerFluid(springWater);
-		if(HotWaterMain.allowLava()){
-			FluidRegistry.registerFluid(superlava);
-		}
 	}	
+	
+	 public static void registerEgg(){
+		 FluidRegistry.registerFluid(superlava);
+	 }
 
 }

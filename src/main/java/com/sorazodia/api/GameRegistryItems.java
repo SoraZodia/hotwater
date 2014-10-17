@@ -4,7 +4,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
-/** Item registry class for Cannibalism mod, have methods to make
+/** Item registry class, have methods to make
  * item registation in the GameRegistry a bit easier/less
  * typing.
  * 
