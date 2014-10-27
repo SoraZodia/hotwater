@@ -5,7 +5,7 @@ Minecraft mod that add hot water along with the ability to boil food
 
 License 
 ===========
-    Copyright (C) 2014 sorazodia
+    Copyright (C) 2014 SoraZodia
 
     This program is free software: you can redistribute it and/or modify
 
