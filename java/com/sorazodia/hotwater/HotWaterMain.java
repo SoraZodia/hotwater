@@ -48,7 +48,7 @@ public static BiomeGenBase BiomeHotSpring;
 
 //Booleans
 private static boolean enableSuperLava;
-private boolean enableWIPFeatures;
+private boolean enableWIPFeatures = true; //Saying this now, I will forget to disable this someday.
 
 public static HotWaterTab hotWaterTab = new HotWaterTab();
 
@@ -58,46 +58,31 @@ public static HotWaterTab hotWaterTab = new HotWaterTab();
 		//Configs and variables
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 	    int BiomeID = config.get(Configuration.CATEGORY_GENERAL, "BiomeID For Hot Springs", 35).getInt();
-	    enableSuperLava = config.get(Configuration.CATEGORY_GENERAL, "Enable Super Lava Easter Egg", false).getBoolean();			    
-	    enableWIPFeatures = config.getBoolean(Configuration.CATEGORY_GENERAL, "Enable WIP Features", false, "This is mainly for testing in a DEV ENVIRONMENT, DO NOT ENABLE");
+	    enableSuperLava = config.get(Configuration.CATEGORY_GENERAL, "Enable Super Lava Easter Egg", false).getBoolean();
 	    
 	    //Fluid Registation
-		FMLLog.info("[Hot Water] Registering the New Fluid");
+		FMLLog.info("[Hot Water] Registering Fluid, Blocks, and Items");
 		RegistryFluid.register();
-		FMLLog.info("[Hot Water] New Fluid Registered");
 	    
 	    //Block variables
-	  	FMLLog.info("[Hot Water] Registering the Blocks");
 	  	BlockRegistry.register();
-	  	FMLLog.info("[Hot Water] Blocks Registered");
 	  	
 		//Item Registations
-		FMLLog.info("[Hot Water] Registering Items");
 		ItemRegistry.register();
-		FMLLog.info("[Hot Water] Items Registered");
-		
-		//Event Registations
-		FMLLog.info("[Hot Water] Registering Buildcraft's BucketFill Event Plus Other Events");
-		BucketHandler.INSTANCE.buckets.put(BlockRegistry.BlockHotWater, ItemRegistry.hot_water_bucket);	   
-	    BucketHandler.INSTANCE.buckets.put(BlockRegistry.BlockSpringWater, ItemRegistry.spring_water_bucket);
-		MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
-		//MinecraftForge.EVENT_BUS.register(new SpringGen());
-	    FMLLog.info("[Hot Water] Buildcraft's BucketFill Event and Other Events Registered");
 	    
 	    config.load();
 	    
 	    //Config Stuffs
 	    if(enableSuperLava){	 
-	    FMLLog.info("[Hot Water] Adding in Super Lava, I hope you know what you're doing >:)");
+	    FMLLog.info("[Hot Water Extra] Adding in Super Lava, I hope you know what you're doing >:)");
 	    RegistryFluid.registerEgg();
 	    BlockRegistry.registerEgg();
 	    ItemRegistry.registerEgg();
-		BucketHandler.INSTANCE.buckets.put(BlockRegistry.BlockSuperLava, ItemRegistry.superlava_bucket);
-	    FMLLog.info("[Hot Water] Super Lava Added");
+	    FMLLog.info("[Hot Water Extra] Super Lava Added");
 	    }
 	    
 	    //Biome Registations
-	    FMLLog.info("[Hot Water] Adding new Spring Biome (BECUASE WORLDGEN IS HARD D:)");
+	    FMLLog.info("[Hot Water] Adding new Spring Biome");
 	    BiomeHotSpring = new BiomeHotSpring(BiomeID).setEnableSnow().setBiomeName("Hot Springs").setHeight(new Height(0F, 0F)).setDisableRain();
 	    BiomeDictionary.registerBiomeType(BiomeHotSpring, Type.WATER);
 	    if(BiomeDictionary.isBiomeRegistered(BiomeHotSpring)) FMLLog.info("[Hot Water] Spring Biome Added");
@@ -109,20 +94,27 @@ public static HotWaterTab hotWaterTab = new HotWaterTab();
 	@EventHandler
 	public void Init(FMLInitializationEvent event){
 
+		//Event Registations
+		FMLLog.info("[Hot Water] Registering Forge Events");
+		BucketHandler.INSTANCE.buckets.put(BlockRegistry.BlockHotWater, ItemRegistry.hot_water_bucket);	   
+		BucketHandler.INSTANCE.buckets.put(BlockRegistry.BlockSpringWater, ItemRegistry.spring_water_bucket);
+		MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
+
 		//Fuel Registations
 		FMLLog.info("[Hot Water] Registering Cooking Recipes and Fuel");
 		SmeltingRegistry.addSmelting(Items.water_bucket, ItemRegistry.hot_water_bucket, 0.3F);		
 		GameRegistry.registerFuelHandler(new FuelHandler());
-		FMLLog.info("[Hot Water] Cooking Recipes and Fuel Registered");
-		FMLLog.info("[Hot Water] Finished");
 
-		if(enableSuperLava)
-			GameRegistry.addSmelting(Items.lava_bucket, new ItemStack(ItemRegistry.superlava_bucket), 0.5F); 
+		if(enableSuperLava){
+			GameRegistry.addSmelting(Items.lava_bucket, new ItemStack(ItemRegistry.superlava_bucket), 0.5F);
+			BucketHandler.INSTANCE.buckets.put(BlockRegistry.BlockSuperLava, ItemRegistry.superlava_bucket);
+		}
 			
 		if(enableWIPFeatures){
-		FMLLog.info("[Hot Water Dev] Adding in WIP Stuff");
+		FMLLog.info("[Hot Water Dev] Adding in WIP Stuff, if you're not sorazodia... Tell him to slap himself");
 		GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.cauldon, 1), "I I","IBI","III", 'I', iron, 'B', blazerod);
-		FMLLog.info("[Hot Water Dev] Added");
 		}
+		
+		FMLLog.info("[Hot Water] Annnnd I'm done, on to you Joe");
 	}
 }

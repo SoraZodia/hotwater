@@ -9,10 +9,6 @@ import net.minecraft.item.Item;
 
 public class HotWaterTab extends CreativeTabs{
 
-	public HotWaterTab(String str) {
-		super(str);
-	}
-
 	public HotWaterTab() {
 		super("HotWater");
 	}
