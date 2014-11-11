@@ -7,6 +7,8 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenBase.Height;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
+import net.minecraftforge.common.BiomeManager;
+import net.minecraftforge.common.BiomeManager.BiomeEntry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import buildcraft.energy.BucketHandler;
@@ -16,7 +18,9 @@ import com.sorazodia.hotwater.registry.BlockRegistry;
 import com.sorazodia.hotwater.registry.ItemRegistry;
 import com.sorazodia.hotwater.registry.RegistryFluid;
 import com.sorazodia.hotwater.tab.HotWaterTab;
+import com.sorazodia.hotwater.worldGen.BiomeDecorateEvent;
 import com.sorazodia.hotwater.worldGen.BiomeHotSpring;
+import com.sorazodia.hotwater.worldGen.WorldGenRocks;
 
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
@@ -44,7 +48,7 @@ public static DamageSource Boiled = new DamageSource("hot_water.boiled");
 public static DamageSource Melted = new DamageSource("hot_water.Melted").setFireDamage().setDamageBypassesArmor().setDamageIsAbsolute();
 
 //Biome
-public static BiomeGenBase BiomeHotSpring;
+public static BiomeGenBase biomeHotSpring;
 
 //Booleans
 private static boolean enableSuperLava;
@@ -83,9 +87,10 @@ public static HotWaterTab hotWaterTab = new HotWaterTab();
 	    
 	    //Biome Registations
 	    FMLLog.info("[Hot Water] Adding new Spring Biome");
-	    BiomeHotSpring = new BiomeHotSpring(BiomeID).setEnableSnow().setBiomeName("Hot Springs").setHeight(new Height(0F, 0F)).setDisableRain();
-	    BiomeDictionary.registerBiomeType(BiomeHotSpring, Type.WATER);
-	    if(BiomeDictionary.isBiomeRegistered(BiomeHotSpring)) FMLLog.info("[Hot Water] Spring Biome Added");
+	    biomeHotSpring = new BiomeHotSpring(BiomeID).setEnableSnow().setBiomeName("Hot Springs").setHeight(new Height(0F, 0F)).setDisableRain();
+	    BiomeManager.icyBiomes.add(new BiomeEntry(biomeHotSpring, 5));
+	    BiomeDictionary.registerBiomeType(biomeHotSpring, Type.COLD);
+	    if(BiomeDictionary.isBiomeRegistered(biomeHotSpring)) FMLLog.info("[Hot Water] Spring Biome Added");
 	    else FMLLog.info("[Hot Water] Something went wrong in biome registation, Spring Biome is not Added");
 		
 	    config.save();
@@ -104,7 +109,6 @@ public static HotWaterTab hotWaterTab = new HotWaterTab();
 		FMLLog.info("[Hot Water] Registering Cooking Recipes and Fuel");
 		SmeltingRegistry.addSmelting(Items.water_bucket, ItemRegistry.hot_water_bucket, 0.3F);		
 		GameRegistry.registerFuelHandler(new FuelHandler());
-
 		if(enableSuperLava){
 			GameRegistry.addSmelting(Items.lava_bucket, new ItemStack(ItemRegistry.superlava_bucket), 0.5F);
 			BucketHandler.INSTANCE.buckets.put(BlockRegistry.BlockSuperLava, ItemRegistry.superlava_bucket);

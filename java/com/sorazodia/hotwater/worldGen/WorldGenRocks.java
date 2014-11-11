@@ -2,23 +2,28 @@ package com.sorazodia.hotwater.worldGen;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.world.gen.feature.WorldGenLakes;
-import net.minecraftforge.event.terraingen.TerrainGen;
+import net.minecraft.init.Blocks;
+import net.minecraft.world.World;
+import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.feature.WorldGenerator;
 
-import com.sorazodia.hotwater.HotWaterMain;
+public class WorldGenRocks extends WorldGenerator{
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-
-public class WorldGenRocks {
-
-	Random rand = new Random();
-
-	
-	@SubscribeEvent
-	public void createWaterGen(TerrainGen event){	
-         
-		
+	@Override
+	public boolean generate(World world, Random random, int x, int y, int z) {
+		for(int c=0;c<32;c++){
+			x += random.nextInt(16);
+			y +=2;
+			z += random.nextInt(16);
+			world.setBlock(x, y, z, Blocks.cobblestone);
+			for(int e = 0; e <10 ; e++){
+				x++;
+				y++;
+				z--;
+				world.setBlock(x, y, z, Blocks.cobblestone);
+			}
+		}
+		return true;
 	}
 
 	
