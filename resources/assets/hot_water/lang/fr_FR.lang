@@ -1,0 +1,17 @@
+tile.hot_water.name=Eau chaude
+item.bucket_hot_water.name=Seau d'eau chaude
+tile.super_lava.name=Super-lave chauffé
+item.bucket_superlava.name=seau de lave surchauffée
+tile.hot_spring_water.name=Eau de source
+item.bucket_spring_water.name=seau d'eau de source
+
+item.boiled_flesh.name=Chaire bouillie
+item.detoxified_spider_eyes.name=Yeux d'araignée désintoxiqués
+item.boiled_leather.name=Cuir bouilli
+
+death.attack.hot_water.boiled=%1$ a bouilli à mort
+death.attack.hot_water.boiled.player=%1$ a été parfaitement cuit à la vapeur par %2$ <3
+death.attack.hot_water.Melted=%1$ a fondu
+death.attack.hot_water.Melted.player=%1$ a fondu tandis qu'il conbattait %2$
+
+itemGroup.HotWater=Hot Water Mod
