@@ -13,7 +13,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import buildcraft.energy.BucketHandler;
 
-import com.sorazodia.api.SmeltingRegistry;
 import com.sorazodia.hotwater.registry.BlockRegistry;
 import com.sorazodia.hotwater.registry.ItemRegistry;
 import com.sorazodia.hotwater.registry.RegistryFluid;
@@ -21,6 +20,7 @@ import com.sorazodia.hotwater.tab.HotWaterTab;
 import com.sorazodia.hotwater.worldGen.BiomeDecorateEvent;
 import com.sorazodia.hotwater.worldGen.BiomeHotSpring;
 import com.sorazodia.hotwater.worldGen.WorldGenRocks;
+import com.sorazodia.registryhelper.SmeltingRegistry;
 
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;

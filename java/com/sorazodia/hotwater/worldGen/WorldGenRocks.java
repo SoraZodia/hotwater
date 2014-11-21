@@ -11,18 +11,22 @@ public class WorldGenRocks extends WorldGenerator{
 
 	@Override
 	public boolean generate(World world, Random random, int x, int y, int z) {
-		for(int c=0;c<32;c++){
-			x += random.nextInt(16);
-			y +=2;
-			z += random.nextInt(16);
+		int yLimit = y;
+	
+	if(y > yLimit){
+		for(int c=0;c<16;c++){
+			x -= random.nextInt(16);
+			y -=2;
+			z -= random.nextInt(16);
 			world.setBlock(x, y, z, Blocks.cobblestone);
-			for(int e = 0; e <10 ; e++){
+			for(int e = 0; e < 5 ; e++){
 				x++;
-				y++;
-				z--;
+				y--;
+				z++;
 				world.setBlock(x, y, z, Blocks.cobblestone);
 			}
 		}
+	}
 		return true;
 	}
 
