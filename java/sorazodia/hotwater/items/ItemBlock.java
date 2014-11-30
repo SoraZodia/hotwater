@@ -1,4 +1,4 @@
-package com.sorazodia.hotwater.items;
+package sorazodia.hotwater.items;
 
 import java.util.List;
 
@@ -24,6 +24,7 @@ public class ItemBlock extends ItemReed{
 		hasLore = true;
 	}
 
+	@Override
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer player, List par3List, boolean par4) {
 		if(hasLore) par3List.add(lore);
 	    }

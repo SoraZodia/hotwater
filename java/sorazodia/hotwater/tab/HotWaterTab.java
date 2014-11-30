@@ -1,7 +1,6 @@
-package com.sorazodia.hotwater.tab;
+package sorazodia.hotwater.tab;
 
-import com.sorazodia.hotwater.registry.ItemRegistry;
-
+import sorazodia.hotwater.registry.ItemRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;

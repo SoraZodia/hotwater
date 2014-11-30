@@ -1,26 +1,26 @@
-package com.sorazodia.hotwater.worldGen;
+package sorazodia.hotwater.worldGen;
 
 import java.util.Random;
 
+import sorazodia.hotwater.registry.BlockRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
-import com.sorazodia.hotwater.registry.BlockRegistry;
-
 public class BiomeHotSpring extends BiomeGenBase{
 	
-	WorldGenRocks rocks = new WorldGenRocks();
+	WorldGenLake lake = new WorldGenLake();
 	
 	public BiomeHotSpring(int id) {
 		super(id);
-		topBlock = BlockRegistry.BlockSpringWater;
+		topBlock = Blocks.cobblestone;
 		fillerBlock = Blocks.cobblestone;
 		temperature = -0.5F;
 	}
 	
+	@Override
 	public void decorate(World world, Random random, int x, int z)
     {
-    rocks.generate(world, random, x, 70, z);
+    lake.generateLakes(world, random, BlockRegistry.BlockSpringWater, x, 70, z);
     }
 }

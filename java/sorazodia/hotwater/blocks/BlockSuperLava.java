@@ -1,7 +1,8 @@
-package com.sorazodia.hotwater.blocks;
+package sorazodia.hotwater.blocks;
 
 import java.util.Random;
 
+import sorazodia.hotwater.HotWaterMain;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -11,8 +12,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
-
-import com.sorazodia.hotwater.HotWaterMain;
 
 public class BlockSuperLava extends BlockFluidClassic{
 
@@ -26,11 +25,13 @@ public class BlockSuperLava extends BlockFluidClassic{
 		disableStats();
 	}
 	
+	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity)
     {
         entity.attackEntityFrom(HotWaterMain.Melted, 18.0F);
     }
 
+	@Override
 	public boolean canDisplace(IBlockAccess world, int x, int y, int z)
     {			
         Block block = world.getBlock(x, y, z);
@@ -39,7 +40,7 @@ public class BlockSuperLava extends BlockFluidClassic{
         else return true;
     }
 
-	
+	@Override
 	 public boolean displaceIfPossible(World world, int x, int y, int z)
 	    {
 		 Block block = world.getBlock(x, y, z);

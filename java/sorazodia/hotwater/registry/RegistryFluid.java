@@ -1,7 +1,6 @@
-package com.sorazodia.hotwater.registry;
+package sorazodia.hotwater.registry;
 
-import com.sorazodia.hotwater.HotWaterMain;
-
+import sorazodia.hotwater.HotWaterMain;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 

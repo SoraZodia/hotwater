@@ -1,4 +1,4 @@
-package com.sorazodia.hotwater.items;
+package sorazodia.hotwater.items;
 
 import java.util.List;
 
@@ -35,6 +35,7 @@ public class ItemModBucket extends ItemBucket{
 		hasSecordLore = true;
 	}
 	
+	@Override
     public void addInformation(ItemStack par1ItemStack, EntityPlayer player, List par3List, boolean par4) {
         if(hasLore){
         	par3List.add(lore);

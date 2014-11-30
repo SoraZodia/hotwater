@@ -1,9 +1,8 @@
-package com.sorazodia.hotwater.worldGen;
+package sorazodia.hotwater.worldGen;
 
 import java.util.Random;
 
-import com.sorazodia.hotwater.HotWaterMain;
-
+import sorazodia.hotwater.HotWaterMain;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import cpw.mods.fml.common.eventhandler.EventPriority;
@@ -11,7 +10,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class BiomeDecorateEvent {
 
-	WorldGenRocks rocks = new WorldGenRocks();
+	WorldGenLake rocks = new WorldGenLake();
 	Random rand = new Random();
 	
 	@SubscribeEvent(receiveCanceled = true, priority = EventPriority.NORMAL)

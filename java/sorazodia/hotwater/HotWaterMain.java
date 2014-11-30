@@ -1,5 +1,13 @@
-package com.sorazodia.hotwater;
+package sorazodia.hotwater;
 
+import sorazodia.hotwater.registry.BlockRegistry;
+import sorazodia.hotwater.registry.ItemRegistry;
+import sorazodia.hotwater.registry.RegistryFluid;
+import sorazodia.hotwater.tab.HotWaterTab;
+import sorazodia.hotwater.worldGen.BiomeDecorateEvent;
+import sorazodia.hotwater.worldGen.BiomeHotSpring;
+import sorazodia.hotwater.worldGen.WorldGenLake;
+import sorazodia.registryhelper.SmeltingRegistry;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
@@ -12,16 +20,6 @@ import net.minecraftforge.common.BiomeManager.BiomeEntry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import buildcraft.energy.BucketHandler;
-
-import com.sorazodia.hotwater.registry.BlockRegistry;
-import com.sorazodia.hotwater.registry.ItemRegistry;
-import com.sorazodia.hotwater.registry.RegistryFluid;
-import com.sorazodia.hotwater.tab.HotWaterTab;
-import com.sorazodia.hotwater.worldGen.BiomeDecorateEvent;
-import com.sorazodia.hotwater.worldGen.BiomeHotSpring;
-import com.sorazodia.hotwater.worldGen.WorldGenRocks;
-import com.sorazodia.registryhelper.SmeltingRegistry;
-
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -52,7 +50,6 @@ public static BiomeGenBase biomeHotSpring;
 
 //Booleans
 private static boolean enableSuperLava;
-private boolean enableWIPFeatures = true; //Saying this now, I will forget to disable this someday.
 
 public static HotWaterTab hotWaterTab = new HotWaterTab();
 
@@ -88,7 +85,7 @@ public static HotWaterTab hotWaterTab = new HotWaterTab();
 	    //Biome Registations
 	    FMLLog.info("[Hot Water] Adding new Spring Biome");
 	    biomeHotSpring = new BiomeHotSpring(BiomeID).setEnableSnow().setBiomeName("Hot Springs").setHeight(new Height(0F, 0F)).setDisableRain();
-	    BiomeManager.icyBiomes.add(new BiomeEntry(biomeHotSpring, 5));
+	    BiomeManager.icyBiomes.add(new BiomeEntry(biomeHotSpring, 100));
 	    BiomeDictionary.registerBiomeType(biomeHotSpring, Type.COLD);
 	    if(BiomeDictionary.isBiomeRegistered(biomeHotSpring)) FMLLog.info("[Hot Water] Spring Biome Added");
 	    else FMLLog.info("[Hot Water] Something went wrong in biome registation, Spring Biome is not Added");
@@ -112,11 +109,6 @@ public static HotWaterTab hotWaterTab = new HotWaterTab();
 		if(enableSuperLava){
 			GameRegistry.addSmelting(Items.lava_bucket, new ItemStack(ItemRegistry.superlava_bucket), 0.5F);
 			BucketHandler.INSTANCE.buckets.put(BlockRegistry.BlockSuperLava, ItemRegistry.superlava_bucket);
-		}
-			
-		if(enableWIPFeatures){
-		FMLLog.info("[Hot Water Dev] Adding in WIP Stuff, if you're not sorazodia... Tell him to slap himself");
-		GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.cauldon, 1), "I I","IBI","III", 'I', iron, 'B', blazerod);
 		}
 		
 		FMLLog.info("[Hot Water] Annnnd I'm done, on to you Joe");
