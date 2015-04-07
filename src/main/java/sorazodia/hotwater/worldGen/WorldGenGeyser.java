@@ -6,31 +6,43 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
-import sorazodia.hotwater.registry.BlockRegistry;
 
 public class WorldGenGeyser extends WorldGenerator
 {
 
-	private Block block;
+	private Block lake;
 
-	public void generateLakes(World world, Random random, Block block, int x, int y, int z)
+	public WorldGenGeyser(Block lakeBlock)
 	{
-		this.block = block;
-		generate(world,random, x,y,z);
+		this.lake = lakeBlock;		
 	}
 
 	@Override
-	public boolean generate(World world, Random random, int x, int y, int z) 
+	public boolean generate(World world, Random random, int x, int y, int z)
 	{
-		int randomY = (int) (60 + (Math.random()*((y-60) + 1)));
-		for(int c = 0;c < 32;c++)
-		{
-			for(int v = 0; v < 30; v++)
-			{
-			world.setBlock(x, randomY, z, block);
+		Block air = Blocks.air;
+		if (world.getBlock(x, y, z) == air)
 			y--;
-			}
+		
+//		if (world.getBlock(x, y, z) != Blocks.snow || world.getBlock(x, y, z) != Blocks.stone || world.getBlock(x, y, z) != Blocks.cobblestone)
+//			return false;
+		
+		for (int w = 0; w < 4; w++)
+		{
+			world.setBlock(x+w, y, z, air);
+			world.setBlock(x-w, y, z, air);
+					
+			world.setBlock(x+w, y - 1, z, lake);
+			world.setBlock(x-w, y - 1, z, lake);
+			
+			world.setBlock(x, y, z+w, air);
+			world.setBlock(x, y, z-w, air);
+			
+			world.setBlock(x, y - 1, z+w, lake);
+			world.setBlock(x, y - 1, z-w, lake);
 		}
+		
+			
 		return true;
 	}
 

@@ -11,7 +11,7 @@ import net.minecraft.item.Item;
  * THE init() METHOD MUST BE CALLED FOR IT TO WORK
  *  @author SoraZodia
  */
-public class GameRegistryItems 
+public class SimpleItemsRegistry 
 {
 
 	private static String MODID;

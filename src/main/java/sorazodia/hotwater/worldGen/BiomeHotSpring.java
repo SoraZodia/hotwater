@@ -2,36 +2,34 @@ package sorazodia.hotwater.worldGen;
 
 import java.util.Random;
 
-import sorazodia.hotwater.HotWaterMain;
-import sorazodia.hotwater.registry.BlockRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.biome.BiomeGenBase.Height;
+import sorazodia.hotwater.registry.LiquidRegistry;
 
 public class BiomeHotSpring extends BiomeGenBase
 {
 	
-	private WorldGenGeyser lake = new WorldGenGeyser();
+	private WorldGenGeyser lake;
 	
 	public BiomeHotSpring(int id) 
 	{
 		super(id);
-		topBlock = BlockRegistry.blockSpringWater;
+		topBlock = Blocks.stone;
 		fillerBlock = Blocks.cobblestone;
 		temperature = -0.5F;
 		setEnableSnow();
 		setBiomeName("Hot Springs");
 		setHeight(new Height(0F, 0F));
 		setDisableRain();
+		lake = new WorldGenGeyser(LiquidRegistry.blockSpringWater);
 	}
 	
 	@Override
 	public void decorate(World world, Random random, int x, int z)
 	{
-		int generate = random.nextInt(50);
-		if(generate < 25)
-			lake.generateLakes(world, random, BlockRegistry.blockHotWater, x, 66, z);
+		if (random.nextInt(100) < 50)
+			lake.generate(world, random, x, world.getHeightValue(x, z), z);
 	}
-	
+
 }

@@ -2,7 +2,7 @@ package sorazodia.hotwater.blocks;
 
 import java.util.Random;
 
-import sorazodia.hotwater.HotWaterMain;
+import sorazodia.hotwater.main.HotWaterMain;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;

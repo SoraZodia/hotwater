@@ -1,4 +1,4 @@
-package sorazodia.hotwater;
+package sorazodia.hotwater.main;
 
 import sorazodia.hotwater.registry.ItemRegistry;
 import net.minecraft.item.Item;

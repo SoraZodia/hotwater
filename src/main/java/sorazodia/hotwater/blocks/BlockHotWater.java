@@ -1,21 +1,17 @@
 package sorazodia.hotwater.blocks;
 
-
-import sorazodia.hotwater.HotWaterMain;
-import sorazodia.hotwater.registry.ItemRegistry;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
+import sorazodia.hotwater.main.HotWaterMain;
+import sorazodia.hotwater.registry.ItemRegistry;
 
 public class BlockHotWater extends BlockFluidClassic
 {
@@ -38,7 +34,7 @@ public class BlockHotWater extends BlockFluidClassic
 		{
 			entity.attackEntityFrom(HotWaterMain.Boiled, 2.0F);
 			if (entity.ticksExisted % 20 == 0)
-				WaterEffect(world, x, y, z, 10, 1);
+				WaterEffect(world, x, y, z, 2, 1);
 		}
 		if (entity instanceof EntityItem && !world.isRemote)
 		{
@@ -145,8 +141,8 @@ public class BlockHotWater extends BlockFluidClassic
 	@Override
 	public void registerBlockIcons(IIconRegister register)
 	{
-		stillWater = register.registerIcon("hot_water:hot_water_still");
-		flowingWater = register.registerIcon("hot_water:hot_water_flow");
+		stillWater = register.registerIcon("hot_water:hotWaterStill");
+		flowingWater = register.registerIcon("hot_water:hotWaterFlow");
 	}
 
 }
