@@ -16,7 +16,7 @@ public class ItemRegistry
 	
 	//Food
 	public static ItemFood boiled_flesh = (ItemFood) new ItemFood(4, 1.0F, true)
-		.setUnlocalizedName("boiled_flesh").setTextureName("hot_water:boiledflesh").setCreativeTab(HotWaterMain.hotWaterTab);
+		.setUnlocalizedName("boiled_flesh").setTextureName("hot_water:boiledFlesh").setCreativeTab(HotWaterMain.hotWaterTab);
 	public static ItemFood detoxified_spider_eyes = (ItemFood) new ItemFood(1, 1.0F, true)
 		.setUnlocalizedName("detoxified_spider_eyes").setTextureName("hot_water:detoxifiedSpiderEyes").setCreativeTab(HotWaterMain.hotWaterTab);
 	public static ItemFood boiled_leather = (ItemFood) new ItemFood(2, 1.0F, true)
@@ -39,7 +39,7 @@ public class ItemRegistry
 		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(LiquidRegistry.SPRING_WATER_NAME, FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(spring_water_bucket), new ItemStack(Items.bucket));
 		GameRegistry.registerItem(ItemRegistry.superlava_bucket, "bucket_superlava", HotWaterMain.MODID);
 		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(LiquidRegistry.SUPERLAVA_NAME, FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(ItemRegistry.superlava_bucket), new ItemStack(Items.bucket));
-	
+		
 	}
 
 }

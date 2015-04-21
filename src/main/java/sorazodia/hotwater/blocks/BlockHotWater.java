@@ -33,8 +33,8 @@ public class BlockHotWater extends BlockFluidClassic
 		if (!(entity instanceof EntityItem))
 		{
 			entity.attackEntityFrom(HotWaterMain.Boiled, 2.0F);
-			if (entity.ticksExisted % 20 == 0)
-				WaterEffect(world, x, y, z, 2, 1);
+			if (entity.ticksExisted % 120 == 0)
+				WaterEffect(world, x, y, z, 1, 1);
 		}
 		if (entity instanceof EntityItem && !world.isRemote)
 		{
@@ -42,7 +42,7 @@ public class BlockHotWater extends BlockFluidClassic
 		}
 	}
 
-	public void CookingEffect(World world, int x, int y, int z, Entity entity)
+	private void CookingEffect(World world, int x, int y, int z, Entity entity)
 	{
 		if (((EntityItem) entity).getEntityItem().getItem() == Items.chicken)
 		{
@@ -109,25 +109,21 @@ public class BlockHotWater extends BlockFluidClassic
 
 	}
 
-	private void WaterEffect(World world, int x, int y, int z, int retries,
-			int type)
+	private void WaterEffect(World world, int x, int y, int z, int retries, int type)
 	{
-		world.playSoundEffect((float) x + 0.5F, (float) y + 0.5F,
-				(float) z + 0.5F, "random.fizz", 0.5F,
-				2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+		world.playSoundEffect((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F, "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 		for (int l = 0; l < retries; l++)
 		{
-			if (type == 1)
+			switch (type)
 			{
-				world.spawnParticle("largesmoke", (double) x + Math.random(),
-						(double) y + 1.2D, (double) z + Math.random(), 0.0D,
-						0.0D, 0.0D);
-			}
-			if (type == 2)
-			{
-				world.spawnParticle("cloud", (double) x + Math.random(),
-						(double) y + 1.2D, (double) z + Math.random(), 0.0D,
-						0.0D, 0.0D);
+			case 1:
+				world.spawnParticle("largesmoke", (double) x + Math.random(), (double) y + 1.2D, (double) z
+						+ Math.random(), 0.0D, 0.0D, 0.0D);
+				break;
+			case 2:
+				world.spawnParticle("cloud", (double) x + Math.random(), (double) y + 1.2D, (double) z
+						+ Math.random(), 0.0D, 0.0D, 0.0D);
+				break;
 			}
 		}
 	}

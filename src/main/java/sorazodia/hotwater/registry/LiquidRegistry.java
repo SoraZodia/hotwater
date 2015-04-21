@@ -26,9 +26,9 @@ public class LiquidRegistry
 	public static Block blockHotWater;
 	public static Block blockSpringWater;
 	public static Block blockSuperLava;
-
-	private static void registerFluid()
-	{
+	
+	public static void register()
+	{	
 		FluidRegistry.registerFluid(hotWater);	
 		FluidRegistry.registerFluid(springWater);
 		FluidRegistry.registerFluid(superlava);
@@ -36,12 +36,6 @@ public class LiquidRegistry
 		blockHotWater = new BlockHotWater(hotWater, Material.water).setBlockName(WATER_NAME).setHardness(100F);
 		blockSpringWater = new BlockSpringWater(springWater, Material.water).setBlockName(SPRING_WATER_NAME).setHardness(100F);
 		blockSuperLava = new BlockSuperLava(superlava, Material.lava).setBlockName(SUPERLAVA_NAME).setHardness(100F).setLightLevel(10.0F);
-
-	}
-	
-	public static void register()
-	{	
-		registerFluid();
 		
 		GameRegistry.registerBlock(blockHotWater, WATER_NAME);		
 		GameRegistry.registerBlock(blockSpringWater, SPRING_WATER_NAME);

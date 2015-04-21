@@ -30,7 +30,7 @@ public class HotWaterMain
 
 	// MODID info
 	public static final String MODID = "hot_water";
-	public static final String VERSION = "1.0.3";
+	public static final String VERSION = "1.0.5";
 
 	@Mod.Instance
 	public static HotWaterMain hotWater;
@@ -54,8 +54,9 @@ public class HotWaterMain
 	{
 		// Configs and variables
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
-		biomeID = config.get(Configuration.CATEGORY_GENERAL, "BiomeID For Hot Springs", 35).getInt();
-		enableSuperLava = config.get(Configuration.CATEGORY_GENERAL,"Enable Super Lava", false).getBoolean();
+		biomeID = config.getInt("BiomeID For Hot Springs",Configuration.CATEGORY_GENERAL, 50, 40, 128, "The ID for the Hot Springs Biome");
+		enableSuperLava = config.getBoolean("Enable Super Lava",Configuration.CATEGORY_GENERAL, false, "If you want crazy lava in your world");
+		if(config.hasChanged()) config.save();
         EffectRemover.init();
 		
 		// Fluid Registation
@@ -80,12 +81,12 @@ public class HotWaterMain
 		// Fuel Registations
 		FMLLog.info("[Hot Water] Registering Cooking Recipes and Fuel");
 		SmeltingRegistry.addSmelting(Items.water_bucket,ItemRegistry.hot_water_bucket, 0.3F);
-		SmeltingRegistry.addSmelting(Items.lava_bucket, ItemRegistry.superlava_bucket, 0.5F);
+		if(enableSuperLava == true) SmeltingRegistry.addSmelting(Items.lava_bucket, ItemRegistry.superlava_bucket, 0.5F);
 		GameRegistry.registerFuelHandler(new FuelHandler());
 		
 		FMLLog.info("[Hot Water] Adding Hot Spring Biome");
 		biomeHotSpring = new BiomeHotSpring(biomeID);
-		if(addBiome(biomeHotSpring, 10000, BiomeType.ICY, Type.COLD)) 
+		if(addBiome(biomeHotSpring, 10, BiomeType.ICY, Type.COLD)) 
 			FMLLog.info("[Hot Water] Success!");
 		else 
 			FMLLog.info("[Hot Water] Failed :(");

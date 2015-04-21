@@ -1,8 +1,5 @@
 package sorazodia.hotwater.blocks;
 
-import java.util.Random;
-
-import sorazodia.hotwater.main.HotWaterMain;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -12,13 +9,12 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
+import sorazodia.hotwater.main.HotWaterMain;
 
 public class BlockSuperLava extends BlockFluidClassic{
 
 	protected IIcon stillLava;
 	protected IIcon flowingLava;
-
-	Random rand = new Random();
 
 	public BlockSuperLava(Fluid fluid, Material material) 
 	{
@@ -47,12 +43,6 @@ public class BlockSuperLava extends BlockFluidClassic{
 		Block block = world.getBlock(x, y, z);
 		if(block == this)return false;
 		else return true;
-	}
-
-	public int getMeltChance(int var1)
-	{
-		int melt = rand.nextInt(var1);
-		return melt;
 	}
 
 	@Override
