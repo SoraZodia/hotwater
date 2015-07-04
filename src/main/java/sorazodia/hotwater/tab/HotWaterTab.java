@@ -18,7 +18,7 @@ public class HotWaterTab extends CreativeTabs
 	@SideOnly(Side.CLIENT)
 	public Item getTabIconItem() 
 	{
-        return ItemRegistry.hot_water_bucket;
+        return ItemRegistry.hotWaterBucket;
     }
 
 }

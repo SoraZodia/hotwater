@@ -9,8 +9,9 @@ import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.BiomeManager.BiomeEntry;
 import net.minecraftforge.common.BiomeManager.BiomeType;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.Configuration;
+import sorazodia.hotwater.config.ConfigHandler;
 import sorazodia.hotwater.mechanics.EffectRemover;
+import sorazodia.hotwater.registry.BoiledFoodRegistry;
 import sorazodia.hotwater.registry.ItemRegistry;
 import sorazodia.hotwater.registry.LiquidRegistry;
 import sorazodia.hotwater.tab.HotWaterTab;
@@ -27,43 +28,33 @@ import cpw.mods.fml.common.registry.GameRegistry;
 @Mod(name = "Hot Water Mod", modid = HotWaterMain.MODID, version = HotWaterMain.VERSION)
 public class HotWaterMain
 {
-
-	// MODID info
 	public static final String MODID = "hot_water";
 	public static final String VERSION = "1.0.5";
 
 	@Mod.Instance
 	public static HotWaterMain hotWater;
 
-	// DamageSource
 	public static DamageSource Boiled = new DamageSource("hot_water.boiled");
 	public static DamageSource Melted = new DamageSource("hot_water.Melted").setFireDamage().setDamageBypassesArmor().setDamageIsAbsolute();
 
-	// Biome
 	public static BiomeHotSpring biomeHotSpring;
-		
-	// Booleans
-	public static boolean enableSuperLava;
-	
-	public static int biomeID;
 
 	public static HotWaterTab hotWaterTab = new HotWaterTab();
 
 	@EventHandler
 	public void PreInit(FMLPreInitializationEvent event)
 	{
-		// Configs and variables
-		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
-		biomeID = config.getInt("BiomeID For Hot Springs",Configuration.CATEGORY_GENERAL, 50, 40, 128, "The ID for the Hot Springs Biome");
-		enableSuperLava = config.getBoolean("Enable Super Lava",Configuration.CATEGORY_GENERAL, false, "If you want crazy lava in your world");
-		if(config.hasChanged()) config.save();
-        EffectRemover.init();
+		FMLLog.info("[Hot Water] Registering Config, Items and Liquid");
 		
-		// Fluid Registation
-		FMLLog.info("[Hot Water] Registering Stuff");
+		@SuppressWarnings("unused")
+		ConfigHandler config = new ConfigHandler(event);
+		
+		biomeHotSpring = new BiomeHotSpring(ConfigHandler.getBiomeID());
+		
+        EffectRemover.init();
+        
 		LiquidRegistry.register();
 
-		// Item Registations
 		ItemRegistry.register();
 		
 	}
@@ -71,27 +62,24 @@ public class HotWaterMain
 	@EventHandler
 	public void Init(FMLInitializationEvent event)
 	{
-		// Event Registations
-		FMLLog.info("[Hot Water] Registering Forge Events");
-		BucketHandler.INSTANCE.buckets.put(LiquidRegistry.blockHotWater,ItemRegistry.hot_water_bucket);
-		BucketHandler.INSTANCE.buckets.put(LiquidRegistry.blockSpringWater,ItemRegistry.spring_water_bucket);
-		BucketHandler.INSTANCE.buckets.put(LiquidRegistry.blockSuperLava,ItemRegistry.superlava_bucket);
+		FMLLog.info("[Hot Water] Registering Events, Recipes, and Biome");
+		BucketHandler.INSTANCE.buckets.put(LiquidRegistry.blockHotWater,ItemRegistry.hotWaterBucket);
+		BucketHandler.INSTANCE.buckets.put(LiquidRegistry.blockSpringWater,ItemRegistry.springWaterBucket);
+		BucketHandler.INSTANCE.buckets.put(LiquidRegistry.blockSuperLava,ItemRegistry.superlavaBucket);
 		MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
 
-		// Fuel Registations
-		FMLLog.info("[Hot Water] Registering Cooking Recipes and Fuel");
-		SmeltingRegistry.addSmelting(Items.water_bucket,ItemRegistry.hot_water_bucket, 0.3F);
-		if(enableSuperLava == true) SmeltingRegistry.addSmelting(Items.lava_bucket, ItemRegistry.superlava_bucket, 0.5F);
+		BoiledFoodRegistry.init();
+		
+		SmeltingRegistry.addSmelting(Items.water_bucket,ItemRegistry.hotWaterBucket, 0.3F);
+		if(ConfigHandler.enableSuperLava() == true) 
+			SmeltingRegistry.addSmelting(Items.lava_bucket, ItemRegistry.superlavaBucket, 0.5F);
+		
 		GameRegistry.registerFuelHandler(new FuelHandler());
 		
-		FMLLog.info("[Hot Water] Adding Hot Spring Biome");
-		biomeHotSpring = new BiomeHotSpring(biomeID);
-		if(addBiome(biomeHotSpring, 10, BiomeType.ICY, Type.COLD)) 
-			FMLLog.info("[Hot Water] Success!");
-		else 
-			FMLLog.info("[Hot Water] Failed :(");
+		if(addBiome(biomeHotSpring, 10, BiomeType.ICY, Type.COLD) == false) 
+			FMLLog.info("[Hot Water] Biome Registeration Failed");
 
-		FMLLog.info("[Hot Water] Annnnd I'm done, on to you Joe");
+		FMLLog.info("[Hot Water] Loaded");
 	}
 	
 	private boolean addBiome(BiomeGenBase biome, int weight, BiomeType biomeType,Type type) 
