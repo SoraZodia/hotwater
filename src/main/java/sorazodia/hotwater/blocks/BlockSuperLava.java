@@ -1,5 +1,9 @@
 package sorazodia.hotwater.blocks;
 
+import java.util.Random;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -46,12 +50,27 @@ public class BlockSuperLava extends BlockFluidClassic{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public IIcon getIcon (int side, int meta)
 	{
 		return (IIcon) ((side == 0 || side == 1) ? stillLava : flowingLava);
 	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(World world, int x, int y, int z, Random random)
+	{
+		for (int l = 0; l < 4; l++)
+		{
+			double X = x + random.nextFloat();
+			double Z = z + random.nextFloat();
+			world.spawnParticle("lava", X, y, Z, 0.0, random.nextFloat(), 0.0);
+		}
+		
+	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister register) 
 	{
 		stillLava = register.registerIcon("lava_still");

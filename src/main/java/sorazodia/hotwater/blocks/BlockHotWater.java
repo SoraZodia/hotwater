@@ -1,5 +1,9 @@
 package sorazodia.hotwater.blocks;
 
+import java.util.Random;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -31,20 +35,19 @@ public class BlockHotWater extends BlockFluidClassic
 		if (!(entity instanceof EntityItem))
 		{
 			entity.attackEntityFrom(HotWaterMain.Boiled, 2.0F);
-			if (entity.ticksExisted % 120 == 0)
-				WaterEffect(world, x, y, z, 1, 1);
+			world.playSoundEffect((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F, "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 		}
 		if (entity instanceof EntityItem && !world.isRemote)
-		{
-			CookingEffect(world, x, y, z, entity);
-		}
+			cookingEffect(world, x, y, z, entity);
 	}
 
-	private void CookingEffect(World world, int x, int y, int z, Entity entity)
+	private void cookingEffect(World world, int x, int y, int z, Entity entity)
 	{
 		EntityItem itemEntity = (EntityItem) entity;
 		ItemStack input = itemEntity.getEntityItem();
 
+		world.playSoundEffect((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F, "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+		
 		for (int q = 0; q < BoilList.size(); q++)
 		{
 			ItemStack itemStack = BoilList.getInput(q);
@@ -59,8 +62,7 @@ public class BlockHotWater extends BlockFluidClassic
 				}
 			} else
 			{
-				if (itemStack.getItem() == input.getItem()
-						&& itemStack.getItemDamage() == input.getItemDamage())
+				if (itemStack.getItem() == input.getItem() && itemStack.getItemDamage() == input.getItemDamage())
 				{
 					boil(world, x, y, z, itemEntity, BoilList.getOutput(q), input.stackSize);
 				}
@@ -71,43 +73,37 @@ public class BlockHotWater extends BlockFluidClassic
 
 	private void boil(World world, int x, int y, int z, EntityItem itemEntity, ItemStack output, int amount)
 	{
-		WaterEffect(world, x, y, z, 2, 2);
-
 		if (amount < output.stackSize * amount)
 			amount *= output.stackSize;
-		
+
 		for (int q = 0; q < amount; q++)
 			itemEntity.entityDropItem(new ItemStack(output.getItem(), 1, output.getItemDamage()), 0F);
 
 		itemEntity.setDead();
 	}
 
-	private void WaterEffect(World world, int x, int y, int z, int loop, int type)
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(World world, int x, int y, int z, Random random)
 	{
-		world.playSoundEffect((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F, "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
-		for (int l = 0; l < loop; l++)
+		for (int l = 0; l < 2; l++)
 		{
-			switch (type)
-			{
-			case 1:
-				world.spawnParticle("largesmoke", (double) x + Math.random(), (double) y + 1.2D, (double) z
-						+ Math.random(), 0.0D, 0.0D, 0.0D);
-				break;
-			case 2:
-				world.spawnParticle("cloud", (double) x + Math.random(), (double) y + 1.2D, (double) z
-						+ Math.random(), 0.0D, 0.0D, 0.0D);
-				break;
-			}
+			double X = x + random.nextFloat();
+			double Y = y + 1.2;
+			double Z = z + random.nextFloat();
+			world.spawnParticle("cloud", X, Y, Z, 0.0, 0.1, 0.0);
 		}
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta)
 	{
 		return (IIcon) ((side == 0 || side == 1) ? stillWater : flowingWater);
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister register)
 	{
 		stillWater = register.registerIcon("hot_water:hotWaterStill");
