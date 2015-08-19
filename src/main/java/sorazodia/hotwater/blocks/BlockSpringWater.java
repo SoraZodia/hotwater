@@ -2,17 +2,16 @@ package sorazodia.hotwater.blocks;
 
 import java.util.Random;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.Potion;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import sorazodia.hotwater.mechanics.EffectRemover;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockSpringWater extends BlockHotWater
 {
@@ -30,9 +29,9 @@ public class BlockSpringWater extends BlockHotWater
 		if ((entity instanceof EntityLivingBase) && !world.isRemote)
 		{
 			EntityLivingBase living = (EntityLivingBase) entity;
-			for (Potion remove : EffectRemover.getRemovalList())
+			for (int remove : EffectRemover.getRemovalList())
 			{
-				living.removePotionEffect(remove.id);
+				living.removePotionEffect(remove);
 			}
 
 			if (living.ticksExisted % 100 == 0)
@@ -49,6 +48,9 @@ public class BlockSpringWater extends BlockHotWater
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random random)
 	{
+		if (random.nextInt(5) != 0)
+			return;
+		
 		for (int l = 0; l < 4; l++)
 		{
 			double X = x + random.nextFloat();

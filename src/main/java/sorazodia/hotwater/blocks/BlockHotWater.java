@@ -46,8 +46,6 @@ public class BlockHotWater extends BlockFluidClassic
 		EntityItem itemEntity = (EntityItem) entity;
 		ItemStack input = itemEntity.getEntityItem();
 
-		world.playSoundEffect((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F, "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
-		
 		for (int q = 0; q < BoilList.size(); q++)
 		{
 			ItemStack itemStack = BoilList.getInput(q);
@@ -57,22 +55,20 @@ public class BlockHotWater extends BlockFluidClassic
 			if (ignoreMeta == true)
 			{
 				if (itemStack.getItem() == input.getItem())
-				{
 					boil(world, x, y, z, itemEntity, BoilList.getOutput(q), input.stackSize);
-				}
-			} else
+			} else if (itemStack.getItem() == input.getItem() && itemStack.getItemDamage() == input.getItemDamage())
 			{
-				if (itemStack.getItem() == input.getItem() && itemStack.getItemDamage() == input.getItemDamage())
-				{
-					boil(world, x, y, z, itemEntity, BoilList.getOutput(q), input.stackSize);
-				}
+				boil(world, x, y, z, itemEntity, BoilList.getOutput(q), input.stackSize);
 			}
+
 		}
 
 	}
 
 	private void boil(World world, int x, int y, int z, EntityItem itemEntity, ItemStack output, int amount)
 	{
+		world.playSoundEffect((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F, "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+
 		if (amount < output.stackSize * amount)
 			amount *= output.stackSize;
 
@@ -86,6 +82,9 @@ public class BlockHotWater extends BlockFluidClassic
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random random)
 	{
+		if (random.nextInt(2) != 0)
+			return;
+
 		for (int l = 0; l < 2; l++)
 		{
 			double X = x + random.nextFloat();

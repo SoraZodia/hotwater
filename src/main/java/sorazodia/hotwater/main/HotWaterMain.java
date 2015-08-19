@@ -1,8 +1,5 @@
 package sorazodia.hotwater.main;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.Logger;
-
 import net.minecraft.init.Items;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -12,6 +9,9 @@ import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.BiomeManager.BiomeEntry;
 import net.minecraftforge.common.BiomeManager.BiomeType;
 import net.minecraftforge.common.MinecraftForge;
+
+import org.apache.logging.log4j.Logger;
+
 import sorazodia.hotwater.config.ConfigHandler;
 import sorazodia.hotwater.mechanics.EffectRemover;
 import sorazodia.hotwater.registry.BoiledFoodRegistry;
@@ -48,7 +48,7 @@ public class HotWaterMain
 	{
 		log = event.getModLog();
 
-		log.log(Level.INFO, "Registering Config, Items and Liquid");
+		log.info("Registering Config, Items and Liquid");
 
 		@SuppressWarnings("unused")
 		ConfigHandler config = new ConfigHandler(event);
@@ -61,7 +61,7 @@ public class HotWaterMain
 	@EventHandler
 	public void Init(FMLInitializationEvent event)
 	{
-		log.log(Level.INFO, "Registering Events, Recipes, and Biome");
+		log.info("Registering Events, Recipes, and Biome");
 		BucketHandler.INSTANCE.buckets.put(LiquidRegistry.blockHotWater, ItemRegistry.hotWaterBucket);
 		BucketHandler.INSTANCE.buckets.put(LiquidRegistry.blockSpringWater, ItemRegistry.springWaterBucket);
 		BucketHandler.INSTANCE.buckets.put(LiquidRegistry.blockSuperLava, ItemRegistry.superlavaBucket);
@@ -76,9 +76,9 @@ public class HotWaterMain
 		GameRegistry.registerFuelHandler(new FuelHandler());
 
 		if (addBiome(new BiomeHotSpring(ConfigHandler.getBiomeID()), 10, BiomeType.ICY, Type.COLD) == false)
-			log.log(Level.ERROR, "Biome Registeration Failed");
+			log.error("Biome Registeration Failed");
 
-		log.log(Level.INFO, "Loaded");
+		log.info("Loaded");
 	}
 
 	private boolean addBiome(BiomeGenBase biome, int weight, BiomeType biomeType, Type type)

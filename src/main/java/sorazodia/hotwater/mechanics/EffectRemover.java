@@ -5,27 +5,26 @@ import java.util.ArrayList;
 import net.minecraft.potion.Potion;
 
 public class EffectRemover
-{
-	
-	private static ArrayList<Potion> remove = new ArrayList<Potion>();
-	private static Potion[] negEffect = {
-			Potion.blindness, 
-			Potion.confusion,
-			Potion.weakness,
-			Potion.poison,
-			Potion.wither,
-			Potion.moveSlowdown,
-			Potion.digSlowdown
+{	
+	private static ArrayList<Integer> remove = new ArrayList<>();
+	private static int[] negEffectID = {
+			Potion.blindness.id, 
+			Potion.confusion.id,
+			Potion.weakness.id,
+			Potion.poison.id,
+			Potion.wither.id,
+			Potion.moveSlowdown.id,
+			Potion.digSlowdown.id
 			};
 	
 
 	public static void init()
 	{
-		for(Potion p: negEffect)
+		for(int p: negEffectID)
 			remove.add(p);
 	}
 	
-	public static ArrayList<Potion> getRemovalList()
+	public static ArrayList<Integer> getRemovalList()
 	{
 		return remove;
 	}
