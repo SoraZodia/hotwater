@@ -12,7 +12,7 @@ public class FuelHandler implements IFuelHandler
 	public int getBurnTime(ItemStack itemstack)
 	{
 		Item itemObj = itemstack.getItem();
-		if (itemObj.equals(ItemRegistry.superlavaBucket))
+		if (itemObj.equals(ItemRegistry.superlavaBucket) && itemstack.getItemDamage() == 1)
 			return 40000;
 		if (itemObj.equals(ItemRegistry.hotWaterBucket))
 			return 400;

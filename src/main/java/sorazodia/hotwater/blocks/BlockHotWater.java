@@ -18,11 +18,8 @@ import sorazodia.hotwater.main.HotWaterMain;
 
 public class BlockHotWater extends BlockFluidClassic
 {
-
-	protected IIcon stillWater;
-	protected IIcon flowingWater;
-	protected World worldobj;
-	protected Entity entity;
+	private IIcon stillWater;
+	private IIcon flowingWater;
 
 	public BlockHotWater(Fluid fluid, Material material)
 	{

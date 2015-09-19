@@ -1,6 +1,7 @@
 package sorazodia.hotwater.main;
 
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
@@ -21,17 +22,21 @@ import sorazodia.hotwater.tab.HotWaterTab;
 import sorazodia.hotwater.worldGen.BiomeHotSpring;
 import sorazodia.registryhelper.SmeltingRegistry;
 import buildcraft.energy.BucketHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
+import static sorazodia.hotwater.main.HotWaterMain.*;
 
-@Mod(name = "Hot Water Mod", modid = HotWaterMain.MODID, version = HotWaterMain.VERSION)
+@Mod(name = NAME, modid = MODID, version = VERSION, guiFactory = GUI_FACTORY)
 public class HotWaterMain
 {
 	public static final String MODID = "hot_water";
-	public static final String VERSION = "1.0.5";
+	public static final String NAME = "Hot Water Mod";
+	public static final String VERSION = "1.1.0";
+	public static final String GUI_FACTORY = "sorazodia.hotwater.config.ConfigGUIFactory";
 
 	@Mod.Instance
 	public static HotWaterMain hotWater;
@@ -42,6 +47,7 @@ public class HotWaterMain
 	public static HotWaterTab hotWaterTab = new HotWaterTab();
 
 	private Logger log;
+	public static ConfigHandler config;
 
 	@EventHandler
 	public void PreInit(FMLPreInitializationEvent event)
@@ -50,10 +56,8 @@ public class HotWaterMain
 
 		log.info("Registering Config, Items and Liquid");
 
-		@SuppressWarnings("unused")
-		ConfigHandler config = new ConfigHandler(event);
+		config = new ConfigHandler(event, log);
 
-		EffectRemover.init();
 		LiquidRegistry.register();
 		ItemRegistry.register();
 	}
@@ -62,16 +66,22 @@ public class HotWaterMain
 	public void Init(FMLInitializationEvent event)
 	{
 		log.info("Registering Events, Recipes, and Biome");
-		BucketHandler.INSTANCE.buckets.put(LiquidRegistry.blockHotWater, ItemRegistry.hotWaterBucket);
-		BucketHandler.INSTANCE.buckets.put(LiquidRegistry.blockSpringWater, ItemRegistry.springWaterBucket);
-		BucketHandler.INSTANCE.buckets.put(LiquidRegistry.blockSuperLava, ItemRegistry.superlavaBucket);
-		MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
+		BucketHandler.addToList(LiquidRegistry.blockHotWater, ItemRegistry.hotWaterBucket);
+		BucketHandler.addToList(LiquidRegistry.blockSpringWater, ItemRegistry.springWaterBucket);
+		BucketHandler.addToList(LiquidRegistry.blockSuperLava, new ItemStack(ItemRegistry.superlavaBucket, 1, 1));
+		MinecraftForge.EVENT_BUS.register(new BucketHandler());
+		FMLCommonHandler.instance().bus().register(config);
 
+		EffectRemover.init();
 		BoiledFoodRegistry.init();
 
 		SmeltingRegistry.addSmelting(Items.water_bucket, ItemRegistry.hotWaterBucket, 0.3F);
+		
 		if (ConfigHandler.enableSuperLava() == true)
-			SmeltingRegistry.addSmelting(Items.lava_bucket, ItemRegistry.superlavaBucket, 0.5F);
+		{
+			GameRegistry.addShapelessRecipe(new ItemStack(ItemRegistry.superlavaBucket, 1, 0), Items.lava_bucket, Items.nether_star);
+			SmeltingRegistry.addSmelting(ItemRegistry.superlavaBucket, new ItemStack(ItemRegistry.superlavaBucket, 1, 1));
+		}
 
 		GameRegistry.registerFuelHandler(new FuelHandler());
 
@@ -80,7 +90,7 @@ public class HotWaterMain
 
 		log.info("Loaded");
 	}
-
+	
 	private boolean addBiome(BiomeGenBase biome, int weight, BiomeType biomeType, Type type)
 	{
 		BiomeManager.addBiome(biomeType, new BiomeEntry(biome, weight));

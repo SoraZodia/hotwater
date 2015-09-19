@@ -7,14 +7,18 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 import sorazodia.hotwater.mechanics.EffectRemover;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockSpringWater extends BlockHotWater
+public class BlockSpringWater extends BlockFluidClassic
 {
+	private IIcon stillWater;
+	private IIcon flowingWater;
 	private float hunger = 0;
 
 	public BlockSpringWater(Fluid fluid, Material material)
@@ -60,6 +64,13 @@ public class BlockSpringWater extends BlockHotWater
 		
 	}
 
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(int side, int meta)
+	{
+		return (IIcon) ((side == 0 || side == 1) ? stillWater : flowingWater);
+	}
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister register)
