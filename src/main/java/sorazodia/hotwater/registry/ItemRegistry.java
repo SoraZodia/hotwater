@@ -50,6 +50,12 @@ public class ItemRegistry
 				HotWaterMain.MODID);
 
 		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(
+				LiquidRegistry.WATER_NAME, FluidContainerRegistry.BUCKET_VOLUME),
+				new ItemStack(hotWaterBucket), new ItemStack(Items.bucket));
+		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(
+				LiquidRegistry.SPRING_WATER_NAME, FluidContainerRegistry.BUCKET_VOLUME),
+				new ItemStack(springWaterBucket), new ItemStack(Items.bucket));
+		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(
 				LiquidRegistry.SUPERLAVA_NAME, FluidContainerRegistry.BUCKET_VOLUME),
 				new ItemStack(ItemRegistry.superlavaBucket, 1, 1), new ItemStack(Items.bucket));
 
