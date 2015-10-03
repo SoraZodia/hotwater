@@ -21,7 +21,6 @@ import sorazodia.hotwater.registry.LiquidRegistry;
 import sorazodia.hotwater.tab.HotWaterTab;
 import sorazodia.hotwater.worldGen.BiomeHotSpring;
 import sorazodia.registryhelper.SmeltingRegistry;
-import buildcraft.energy.BucketHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -66,9 +65,9 @@ public class HotWaterMain
 	public void Init(FMLInitializationEvent event)
 	{
 		log.info("Registering Events, Recipes, and Biome");
-		BucketHandler.addToList(LiquidRegistry.blockHotWater, ItemRegistry.hotWaterBucket);
-		BucketHandler.addToList(LiquidRegistry.blockSpringWater, ItemRegistry.springWaterBucket);
-		BucketHandler.addToList(LiquidRegistry.blockSuperLava, new ItemStack(ItemRegistry.superlavaBucket, 1, 1));
+		BucketHandler.addBucketMapping(LiquidRegistry.blockHotWater, ItemRegistry.hotWaterBucket);
+		BucketHandler.addBucketMapping(LiquidRegistry.blockSpringWater, ItemRegistry.springWaterBucket);
+		BucketHandler.addBucketMapping(LiquidRegistry.blockSuperLava, new ItemStack(ItemRegistry.superlavaBucket, 1, 1));
 		MinecraftForge.EVENT_BUS.register(new BucketHandler());
 		FMLCommonHandler.instance().bus().register(config);
 
