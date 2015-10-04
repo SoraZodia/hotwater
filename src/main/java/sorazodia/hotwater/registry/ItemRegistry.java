@@ -7,7 +7,7 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
-import sorazodia.hotwater.items.ItemModBucket;
+import sorazodia.hotwater.items.ItemSuperLavaBucket;
 import sorazodia.hotwater.main.HotWaterMain;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -32,7 +32,7 @@ public class ItemRegistry
 	public static Item springWaterBucket = new ItemBucket(LiquidRegistry.blockSpringWater).setTextureName(
 			"hot_water:bucketHotSpringWater").setUnlocalizedName("bucket_spring_water").setCreativeTab(
 			HotWaterMain.hotWaterTab);
-	public static Item superlavaBucket = new ItemModBucket(true, "You shouldn't be playing with this...").setTextureName(
+	public static Item superlavaBucket = new ItemSuperLavaBucket(true).setTextureName(
 			"bucket_lava").setUnlocalizedName("bucket_superlava").setCreativeTab(
 			HotWaterMain.hotWaterTab);
 

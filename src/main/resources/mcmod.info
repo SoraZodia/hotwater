@@ -3,7 +3,7 @@
    "modid": "hot_water",
   "name": "Hot Water Mod",
   "description": "Add more liquids and new fuel into the game",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "mcversion": "1.7.x",
   "url": "",
   "updateUrl": "",
