@@ -30,7 +30,7 @@ public class BlockSpringWater extends BlockFluidClassic
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity)
 	{
 
-		if ((entity instanceof EntityLivingBase) && !world.isRemote)
+		if ((entity instanceof EntityLivingBase)&& !world.isRemote)
 		{
 			EntityLivingBase living = (EntityLivingBase) entity;
 			for (int remove : EffectRemover.getRemovalList())
@@ -38,7 +38,7 @@ public class BlockSpringWater extends BlockFluidClassic
 				living.removePotionEffect(remove);
 			}
 
-			if (living.ticksExisted % 100 == 0)
+			if (living.ticksExisted % 100 == 0 && living.getHealth() > 0)
 			{
 				living.setHealth(living.getHealth() + 0.5F);
 				if (living instanceof EntityPlayer)

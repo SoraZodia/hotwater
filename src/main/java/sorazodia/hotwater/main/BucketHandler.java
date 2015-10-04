@@ -24,7 +24,7 @@ public class BucketHandler
 		
 		if (map.containsKey(targetBlock) && world.getBlockMetadata(blockPosition.blockX, blockPosition.blockY, blockPosition.blockZ) == 0)
 		{
-			onFill.result = map.get(targetBlock);
+			onFill.result = map.get(targetBlock).copy();
 			world.setBlockToAir(blockPosition.blockX, blockPosition.blockY, blockPosition.blockZ);
 			onFill.setResult(Event.Result.ALLOW);
 		}
