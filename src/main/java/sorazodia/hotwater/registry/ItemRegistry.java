@@ -28,7 +28,7 @@ public class ItemRegistry
 	//Items
 	public static Item hotWaterBucket = new ItemBucket(LiquidRegistry.blockHotWater).setTextureName(
 			"hot_water:bucketHotWater").setUnlocalizedName("bucket_hot_water").setCreativeTab(
-			HotWaterMain.hotWaterTab);
+			HotWaterMain.hotWaterTab).setContainerItem(Items.bucket);
 	public static Item springWaterBucket = new ItemBucket(LiquidRegistry.blockSpringWater).setTextureName(
 			"hot_water:bucketHotSpringWater").setUnlocalizedName("bucket_spring_water").setCreativeTab(
 			HotWaterMain.hotWaterTab);
