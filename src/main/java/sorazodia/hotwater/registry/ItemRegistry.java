@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import sorazodia.hotwater.items.ItemSuperLavaBucket;
+import sorazodia.hotwater.items.ItemWaterBottle;
 import sorazodia.hotwater.main.HotWaterMain;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -15,48 +16,41 @@ public class ItemRegistry
 {
 
 	//Food
-	public static ItemFood boiledFlesh = (ItemFood) new ItemFood(4, 1.0F, true).setUnlocalizedName(
-			"boiled_flesh").setTextureName("hot_water:boiledFlesh").setCreativeTab(
-			HotWaterMain.hotWaterTab);
-	public static ItemFood detoxifiedSpiderEyes = (ItemFood) new ItemFood(1, 1.0F, true).setUnlocalizedName(
-			"detoxified_spider_eyes").setTextureName("hot_water:detoxifiedSpiderEyes").setCreativeTab(
-			HotWaterMain.hotWaterTab);
-	public static ItemFood boiledLeather = (ItemFood) new ItemFood(2, 1.0F, true).setUnlocalizedName(
-			"boiled_leather").setTextureName("hot_water:boiledLeather").setCreativeTab(
-			HotWaterMain.hotWaterTab);
+	public static ItemFood boiledFlesh = (ItemFood) new ItemFood(4, 1.0F, true).setUnlocalizedName("boiled_flesh").setTextureName(
+			"hot_water:boiledFlesh").setCreativeTab(HotWaterMain.hotWaterTab);
+	public static ItemFood detoxifiedSpiderEyes = (ItemFood) new ItemFood(1, 1.0F, true).setUnlocalizedName("detoxified_spider_eyes").setTextureName(
+			"hot_water:detoxifiedSpiderEyes").setCreativeTab(HotWaterMain.hotWaterTab);
+	public static ItemFood boiledLeather = (ItemFood) new ItemFood(2, 1.0F, true).setUnlocalizedName("boiled_leather").setTextureName(
+			"hot_water:boiledLeather").setCreativeTab(HotWaterMain.hotWaterTab);
 
 	//Items
-	public static Item hotWaterBucket = new ItemBucket(LiquidRegistry.blockHotWater).setTextureName(
-			"hot_water:bucketHotWater").setUnlocalizedName("bucket_hot_water").setCreativeTab(
-			HotWaterMain.hotWaterTab).setContainerItem(Items.bucket);
-	public static Item springWaterBucket = new ItemBucket(LiquidRegistry.blockSpringWater).setTextureName(
-			"hot_water:bucketHotSpringWater").setUnlocalizedName("bucket_spring_water").setCreativeTab(
+	public static Item hotWaterBucket = new ItemBucket(LiquidRegistry.blockHotWater).setTextureName("hot_water:bucketHotWater").setUnlocalizedName(
+			"bucket_hot_water").setCreativeTab(HotWaterMain.hotWaterTab).setContainerItem(Items.bucket);
+	public static Item springWaterBucket = new ItemBucket(LiquidRegistry.blockSpringWater).setTextureName("hot_water:bucketHotSpringWater").setUnlocalizedName(
+			"bucket_spring_water").setCreativeTab(HotWaterMain.hotWaterTab);
+	public static Item superlavaBucket = new ItemSuperLavaBucket(true).setTextureName("bucket_lava").setUnlocalizedName("bucket_superlava").setCreativeTab(
 			HotWaterMain.hotWaterTab);
-	public static Item superlavaBucket = new ItemSuperLavaBucket(true).setTextureName(
-			"bucket_lava").setUnlocalizedName("bucket_superlava").setCreativeTab(
-			HotWaterMain.hotWaterTab);
+	public static Item steamBottle = new ItemWaterBottle().setTextureName("potion_bottle_splash").setUnlocalizedName("bottle_steam").setCreativeTab(HotWaterMain.hotWaterTab);
 
 	public static void register()
 	{
 
 		GameRegistry.registerItem(boiledFlesh, "boiled_flesh", HotWaterMain.MODID);
 		GameRegistry.registerItem(boiledLeather, "boiled_leather", HotWaterMain.MODID);
-		GameRegistry.registerItem(detoxifiedSpiderEyes, "detoxified_spider_eyes",
-				HotWaterMain.MODID);
+		GameRegistry.registerItem(detoxifiedSpiderEyes, "detoxified_spider_eyes", HotWaterMain.MODID);
 
+		GameRegistry.registerItem(steamBottle, "bottle_steam", HotWaterMain.MODID);
 		GameRegistry.registerItem(hotWaterBucket, "bucket_hot_water", HotWaterMain.MODID);
 		GameRegistry.registerItem(springWaterBucket, "bucket_spring_water", HotWaterMain.MODID);
-		GameRegistry.registerItem(ItemRegistry.superlavaBucket, "bucket_superlava",
-				HotWaterMain.MODID);
+		GameRegistry.registerItem(ItemRegistry.superlavaBucket, "bucket_superlava", HotWaterMain.MODID);
 
-		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(
-				LiquidRegistry.WATER_NAME, FluidContainerRegistry.BUCKET_VOLUME),
+		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(LiquidRegistry.WATER_NAME, FluidContainerRegistry.BUCKET_VOLUME),
 				new ItemStack(hotWaterBucket), new ItemStack(Items.bucket));
-		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(
-				LiquidRegistry.SPRING_WATER_NAME, FluidContainerRegistry.BUCKET_VOLUME),
+		FluidContainerRegistry.registerFluidContainer(
+				FluidRegistry.getFluidStack(LiquidRegistry.SPRING_WATER_NAME, FluidContainerRegistry.BUCKET_VOLUME),
 				new ItemStack(springWaterBucket), new ItemStack(Items.bucket));
-		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(
-				LiquidRegistry.SUPERLAVA_NAME, FluidContainerRegistry.BUCKET_VOLUME),
+		FluidContainerRegistry.registerFluidContainer(
+				FluidRegistry.getFluidStack(LiquidRegistry.SUPERLAVA_NAME, FluidContainerRegistry.BUCKET_VOLUME),
 				new ItemStack(ItemRegistry.superlavaBucket, 1, 1), new ItemStack(Items.bucket));
 
 	}
