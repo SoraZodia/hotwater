@@ -4,11 +4,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
-import sorazodia.hotwater.mechanics.EffectRemover;
+import sorazodia.hotwater.mechanics.EffectManager;
 
 public class BlockSpringWater extends BlockFluidClassic
 {
@@ -25,9 +27,15 @@ public class BlockSpringWater extends BlockFluidClassic
 		if ((entity instanceof EntityLivingBase)&& !world.isRemote)
 		{
 			EntityLivingBase living = (EntityLivingBase) entity;
-			for (int remove : EffectRemover.getRemovalList())
+			for (int remove : EffectManager.getRemovalList())
 			{
 				living.removePotionEffect(remove);
+			}
+			
+			for (PotionEffect activeEffect : living.getActivePotionEffects())
+			{
+				if (Potion.potionTypes[activeEffect.getPotionID()].isBadEffect())
+					living.removePotionEffect(activeEffect.getPotionID());
 			}
 
 			if (living.ticksExisted % 100 == 0 && living.getHealth() > 0)

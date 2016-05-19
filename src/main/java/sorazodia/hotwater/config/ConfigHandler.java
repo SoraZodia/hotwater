@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 import org.apache.logging.log4j.Logger;
 
-import sorazodia.hotwater.mechanics.EffectRemover;
+import sorazodia.hotwater.mechanics.EffectManager;
 
 public class ConfigHandler
 {
@@ -47,7 +47,7 @@ public class ConfigHandler
 		for (String id : stringList)
 		{
 			if (isInteger(id))
-				EffectRemover.getRemovalList().add(Integer.parseInt(id));
+				EffectManager.getRemovalList().add(Integer.parseInt(id));
 			else
 			{
 				log.info(id + " is not a valid number");

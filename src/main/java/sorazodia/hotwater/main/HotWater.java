@@ -20,7 +20,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Logger;
 
 import sorazodia.hotwater.config.ConfigHandler;
-import sorazodia.hotwater.mechanics.EffectRemover;
 import sorazodia.hotwater.registry.BoiledFoodRegistry;
 import sorazodia.hotwater.registry.ItemRegistry;
 import sorazodia.hotwater.registry.LiquidRegistry;
@@ -58,12 +57,8 @@ public class HotWater
 
 		LiquidRegistry.register();
 		ItemRegistry.register();
-	}
-
-	@EventHandler
-	public void Init(FMLInitializationEvent event)
-	{
-		log.info("Registering Events, Recipes, and Biome");
+		
+        log.info("Registering Events, and Biome");
 		
 		BucketHandler.addBucketMapping(LiquidRegistry.blockHotWater, ItemRegistry.hotWaterBucket);
 		BucketHandler.addBucketMapping(LiquidRegistry.blockSpringWater, ItemRegistry.springWaterBucket);
@@ -71,22 +66,28 @@ public class HotWater
 		MinecraftForge.EVENT_BUS.register(new BucketHandler());
 		MinecraftForge.EVENT_BUS.register(config);
 
-		EffectRemover.init();
-		BoiledFoodRegistry.init();
+		BoiledFoodRegistry.init();	
 
-		SmeltingRegistry.addSmelting(Items.water_bucket, ItemRegistry.hotWaterBucket, 0.3F);
+		GameRegistry.registerFuelHandler(new FuelHandler());
+
+		if (addBiome(new BiomeHotSpring(ConfigHandler.getBiomeID()), 10, BiomeType.ICY, Type.COLD) == false)
+			log.error("Biome Registeration Failed");
+		
+	}
+
+	@EventHandler
+	public void Init(FMLInitializationEvent event)
+	{
+		log.info("Registering Recipes");
+		
+        SmeltingRegistry.addSmelting(Items.water_bucket, ItemRegistry.hotWaterBucket, 0.3F);
 		
 		if (ConfigHandler.enableSuperLava() == true)
 		{
 			GameRegistry.addShapelessRecipe(new ItemStack(ItemRegistry.superlavaBucket, 1, 0), Items.lava_bucket, Items.nether_star);
 			SmeltingRegistry.addSmelting(ItemRegistry.superlavaBucket, new ItemStack(ItemRegistry.superlavaBucket, 1, 1));
 		}
-
-		GameRegistry.registerFuelHandler(new FuelHandler());
-
-		if (addBiome(new BiomeHotSpring(ConfigHandler.getBiomeID()), 10, BiomeType.ICY, Type.COLD) == false)
-			log.error("Biome Registeration Failed");
-
+		
 		log.info("Loaded");
 	}
 	
