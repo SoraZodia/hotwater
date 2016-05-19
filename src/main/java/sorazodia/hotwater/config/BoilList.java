@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 
 public class BoilList
 {
+	
 	private static ArrayList<ItemData> boilList = new ArrayList<ItemData>();
 
 	public static void put(ItemData data)

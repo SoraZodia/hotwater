@@ -1,9 +1,9 @@
 package sorazodia.hotwater.main;
 
-import sorazodia.hotwater.registry.ItemRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.common.IFuelHandler;
+import net.minecraftforge.fml.common.IFuelHandler;
+import sorazodia.hotwater.registry.ItemRegistry;
 
 public class FuelHandler implements IFuelHandler
 {

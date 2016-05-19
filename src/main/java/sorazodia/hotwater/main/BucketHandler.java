@@ -8,8 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
-import cpw.mods.fml.common.eventhandler.Event;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class BucketHandler
 {
@@ -20,12 +20,12 @@ public class BucketHandler
 	{
 		World world = onFill.world;
 		MovingObjectPosition blockPosition = onFill.target;
-		Block targetBlock = world.getBlock(blockPosition.blockX, blockPosition.blockY, blockPosition.blockZ);
+		Block targetBlock = world.getBlockState(blockPosition.getBlockPos()).getBlock();
 		
-		if (map.containsKey(targetBlock) && world.getBlockMetadata(blockPosition.blockX, blockPosition.blockY, blockPosition.blockZ) == 0)
+		if (map.containsKey(targetBlock) && world.getBlockState(blockPosition.getBlockPos()).equals(targetBlock.getDefaultState()))
 		{
 			onFill.result = map.get(targetBlock).copy();
-			world.setBlockToAir(blockPosition.blockX, blockPosition.blockY, blockPosition.blockZ);
+			world.setBlockToAir(blockPosition.getBlockPos());
 			onFill.setResult(Event.Result.ALLOW);
 		}
 	}

@@ -8,15 +8,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
+import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import sorazodia.hotwater.registry.LiquidRegistry;
-import cpw.mods.fml.common.eventhandler.Event;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemSuperLavaBucket extends Item
 {
@@ -70,38 +71,36 @@ public class ItemSuperLavaBucket extends Item
 			}
 			if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
 			{
-				int x = movingobjectposition.blockX;
-				int y = movingobjectposition.blockY;
-				int z = movingobjectposition.blockZ;
+				BlockPos pos = movingobjectposition.getBlockPos();
 
-				if (!world.canMineBlock(player, x, y, z))
+				if (!world.canMineBlockBody(player, pos))
 				{
 					return itemStack;
 				} else
 				{
 					switch (movingobjectposition.sideHit)
 					{
-					case 0:
-						--y;
+					case UP:
+						pos.down();
 						break;
-					case 1:
-						++y;
+					case DOWN:
+						pos.up();
 						break;
-					case 2:
-						--z;
+					case EAST:
+						pos.west();
 						break;
-					case 3:
-						++z;
+					case WEST:
+						pos.east();
 						break;
-					case 4:
-						--x;
+					case NORTH:
+						pos.south();
 						break;
-					case 5:
-						++x;
+					case SOUTH:
+						pos.north();
 						break;
 					}
 
-					if (!player.canPlayerEdit(x, y, z, movingobjectposition.sideHit, itemStack))
+					if (!player.canPlayerEdit(pos, movingobjectposition.sideHit, itemStack))
 					{
 						return itemStack;
 					}
@@ -112,7 +111,7 @@ public class ItemSuperLavaBucket extends Item
 						if (player.capabilities.isCreativeMode)
 							bucket = itemStack;
 
-						world.setBlock(x, y, z, LiquidRegistry.blockSuperLava);
+						world.setBlockState(pos, LiquidRegistry.blockSuperLava.getDefaultState());
 
 						return bucket;
 					}

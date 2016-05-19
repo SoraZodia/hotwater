@@ -1,25 +1,18 @@
 package sorazodia.hotwater.blocks;
 
-import java.util.Random;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 import sorazodia.hotwater.config.BoilList;
-import sorazodia.hotwater.main.HotWaterMain;
+import sorazodia.hotwater.main.HotWater;
 
 public class BlockHotWater extends BlockFluidClassic
 {
-	private IIcon stillWater;
-	private IIcon flowingWater;
 
 	public BlockHotWater(Fluid fluid, Material material)
 	{
@@ -27,11 +20,15 @@ public class BlockHotWater extends BlockFluidClassic
 	}
 
 	@Override
-	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity)
+	public void onEntityCollidedWithBlock(World world, BlockPos pos, Entity entity)
 	{
+		int x = pos.getX();
+		int y = pos.getY();
+		int z = pos.getZ();
+		
 		if (!(entity instanceof EntityItem))
 		{
-			entity.attackEntityFrom(HotWaterMain.Boiled, 2.0F);
+			entity.attackEntityFrom(HotWater.Boiled, 2.0F);
 			world.playSoundEffect((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F, "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 		}
 		if (entity instanceof EntityItem && !world.isRemote)
@@ -73,37 +70,6 @@ public class BlockHotWater extends BlockFluidClassic
 			itemEntity.entityDropItem(new ItemStack(output.getItem(), 1, output.getItemDamage()), 0F);
 
 		itemEntity.setDead();
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, int x, int y, int z, Random random)
-	{
-		if (random.nextInt(2) != 0)
-			return;
-
-		for (int l = 0; l < 2; l++)
-		{
-			double X = x + random.nextFloat();
-			double Y = y + 1.2;
-			double Z = z + random.nextFloat();
-			world.spawnParticle("cloud", X, Y, Z, 0.0, 0.1, 0.0);
-		}
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta)
-	{
-		return (IIcon) ((side == 0 || side == 1) ? stillWater : flowingWater);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister register)
-	{
-		stillWater = register.registerIcon("hot_water:hotWaterStill");
-		flowingWater = register.registerIcon("hot_water:hotWaterFlow");
 	}
 
 }

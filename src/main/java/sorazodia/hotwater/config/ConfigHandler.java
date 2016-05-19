@@ -4,15 +4,14 @@ import java.util.ArrayList;
 
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 import org.apache.logging.log4j.Logger;
 
-import sorazodia.hotwater.main.HotWaterMain;
 import sorazodia.hotwater.mechanics.EffectRemover;
-import cpw.mods.fml.client.event.ConfigChangedEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 public class ConfigHandler
 {
@@ -35,12 +34,9 @@ public class ConfigHandler
 
 	public void syncConfig()
 	{
-		addToIDList(config.getStringList("Potion Clear List", Configuration.CATEGORY_GENERAL,
-				potionList, "Id to the potion effect that will be removed via hot spring"));
-		biomeID = config.getInt("BiomeID For Hot Springs", Configuration.CATEGORY_GENERAL, 50, 40,
-				128, "The ID for the Hot Springs Biome [Require MC to be restarted]");
-		enableSuperLava = config.getBoolean("Enable Super Lava", Configuration.CATEGORY_GENERAL,
-				false, "If you want crazy lava in your world [Require MC to be restarted]");
+		addToIDList(config.getStringList("Potion Clear List", Configuration.CATEGORY_GENERAL, potionList, "Id to the potion effect that will be removed via hot spring"));
+		biomeID = config.getInt("BiomeID For Hot Springs", Configuration.CATEGORY_GENERAL, 50, 40, 128, "The ID for the Hot Springs Biome [Require MC to be restarted]");
+		enableSuperLava = config.getBoolean("Enable Super Lava", Configuration.CATEGORY_GENERAL, false, "If you want crazy lava in your world [Require MC to be restarted]");
 		if (config.hasChanged())
 			config.save();
 	}
@@ -104,8 +100,7 @@ public class ConfigHandler
 	@SubscribeEvent
 	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent config)
 	{
-		if (config.modID.equals(HotWaterMain.MODID))
-			HotWaterMain.config.syncConfig();
+		syncConfig();
 	}
 
 	@SubscribeEvent

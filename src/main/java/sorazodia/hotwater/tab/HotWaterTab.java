@@ -1,10 +1,10 @@
 package sorazodia.hotwater.tab;
 
-import sorazodia.hotwater.registry.ItemRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import sorazodia.hotwater.registry.ItemRegistry;
 
 public class HotWaterTab extends CreativeTabs
 {

@@ -59,7 +59,7 @@ public class ItemData
 	@Override
 	public String toString()
 	{
-		return input.getItem().getUnlocalizedName() + input.getItemDamage() + input.stackTagCompound.toString();
+		return input.getItem().getUnlocalizedName() + input.getItemDamage() + input.getTagCompound().toString();
 	}
 
 }

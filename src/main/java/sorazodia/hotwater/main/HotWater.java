@@ -1,5 +1,6 @@
 package sorazodia.hotwater.main;
 
+import static sorazodia.hotwater.main.HotWater.*;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
@@ -10,6 +11,11 @@ import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.BiomeManager.BiomeEntry;
 import net.minecraftforge.common.BiomeManager.BiomeType;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import org.apache.logging.log4j.Logger;
 
@@ -21,16 +27,9 @@ import sorazodia.hotwater.registry.LiquidRegistry;
 import sorazodia.hotwater.tab.HotWaterTab;
 import sorazodia.hotwater.worldGen.BiomeHotSpring;
 import sorazodia.registryhelper.SmeltingRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.registry.GameRegistry;
-import static sorazodia.hotwater.main.HotWaterMain.*;
 
 @Mod(name = NAME, modid = MODID, version = VERSION, guiFactory = GUI_FACTORY)
-public class HotWaterMain
+public class HotWater
 {
 	public static final String MODID = "hot_water";
 	public static final String NAME = "Hot Water Mod";
@@ -38,7 +37,7 @@ public class HotWaterMain
 	public static final String GUI_FACTORY = "sorazodia.hotwater.config.ConfigGUIFactory";
 
 	@Mod.Instance
-	public static HotWaterMain hotWater;
+	public static HotWater hotWater;
 
 	public static DamageSource Boiled = new DamageSource("hot_water.boiled");
 	public static DamageSource Melted = new DamageSource("hot_water.Melted").setFireDamage().setDamageBypassesArmor().setDamageIsAbsolute();
@@ -70,7 +69,7 @@ public class HotWaterMain
 		BucketHandler.addBucketMapping(LiquidRegistry.blockSpringWater, ItemRegistry.springWaterBucket);
 		BucketHandler.addBucketMapping(LiquidRegistry.blockSuperLava, new ItemStack(ItemRegistry.superlavaBucket, 1, 1));
 		MinecraftForge.EVENT_BUS.register(new BucketHandler());
-		FMLCommonHandler.instance().bus().register(config);
+		MinecraftForge.EVENT_BUS.register(config);
 
 		EffectRemover.init();
 		BoiledFoodRegistry.init();
