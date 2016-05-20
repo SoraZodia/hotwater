@@ -24,6 +24,12 @@ public class ConfigHandler
 	private static ArrayList<String> invalidEntry = new ArrayList<>();
 
 	private static Logger log;
+	
+	private enum ListType
+	{
+		WHITELIST,
+		BLACKLIST;
+	}
 
 	public ConfigHandler(FMLPreInitializationEvent event, Logger log)
 	{
@@ -34,23 +40,32 @@ public class ConfigHandler
 
 	public void syncConfig()
 	{
-		addToIDList(config.getStringList("Potion Clear List", Configuration.CATEGORY_GENERAL, potionList, "Id to the potion effect that will be removed via hot spring"));
+		addToIDList(config.getStringList("Potion Clear List", Configuration.CATEGORY_GENERAL, potionList, "Id to the potion effect that will be removed via hot spring"), ListType.BLACKLIST);
 		biomeID = config.getInt("BiomeID For Hot Springs", Configuration.CATEGORY_GENERAL, 50, 40, 128, "The ID for the Hot Springs Biome [Require MC to be restarted]");
 		enableSuperLava = config.getBoolean("Enable Super Lava", Configuration.CATEGORY_GENERAL, false, "If you want crazy lava in your world [Require MC to be restarted]");
 		if (config.hasChanged())
 			config.save();
 	}
 
-	private static void addToIDList(String[] stringList)
+	private static void addToIDList(String[] stringList, ListType type)
 	{
-
+        boolean valid = false;
+        
 		for (String id : stringList)
 		{
-			if (isInteger(id))
-				EffectManager.getRemovalList().add(Integer.parseInt(id));
-			else
+			switch (type)
 			{
-				log.info(id + " is not a valid number");
+			case WHITELIST:
+				valid = EffectManager.addToWhitelist(id);
+				break;
+			case BLACKLIST:
+				valid = EffectManager.addToBlacklist(id);
+				break;
+			}
+			
+			if (valid == false)
+			{
+				log.info(id + " is not a valid entry");
 				if (!invalidEntry.contains(id))
 					invalidEntry.add(id);
 			}
@@ -65,36 +80,6 @@ public class ConfigHandler
 	public static int getBiomeID()
 	{
 		return biomeID;
-	}
-
-	// Thank you StackOverflow
-	public static boolean isInteger(String arg)
-	{
-		if (arg == null)
-			return false;
-
-		int length = arg.length();
-
-		if (length == 0)
-			return false;
-
-		int x = 0;
-
-		if (arg.charAt(0) == '-')
-		{
-			if (length == 1)
-				return false;
-			x = 1;
-		}
-
-		for (; x < length; x++)
-		{
-			char c = arg.charAt(x);
-			if (c <= '/' || c >= ':')
-				return false;
-		}
-
-		return true;
 	}
 
 	@SubscribeEvent

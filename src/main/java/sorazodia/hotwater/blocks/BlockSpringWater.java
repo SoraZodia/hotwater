@@ -27,14 +27,16 @@ public class BlockSpringWater extends BlockFluidClassic
 		if ((entity instanceof EntityLivingBase)&& !world.isRemote)
 		{
 			EntityLivingBase living = (EntityLivingBase) entity;
-			for (int remove : EffectManager.getRemovalList())
+			for (Potion remove : EffectManager.getBlacklist())
 			{
-				living.removePotionEffect(remove);
+				living.removePotionEffect(remove.id);
 			}
 			
 			for (PotionEffect activeEffect : living.getActivePotionEffects())
 			{
-				if (Potion.potionTypes[activeEffect.getPotionID()].isBadEffect())
+				Potion potion = Potion.potionTypes[activeEffect.getPotionID()];
+				
+				if (potion.isBadEffect() && !EffectManager.getWhitelist().contains(potion))
 					living.removePotionEffect(activeEffect.getPotionID());
 			}
 

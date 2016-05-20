@@ -96,4 +96,34 @@ public class HotWater
 		BiomeManager.addBiome(biomeType, new BiomeEntry(biome, weight));
 		return BiomeDictionary.registerBiomeType(biome, type);
 	}
+
+	// Thank you StackOverflow
+	public static boolean isInteger(String arg)
+	{
+		if (arg == null)
+			return false;
+	
+		int length = arg.length();
+	
+		if (length == 0)
+			return false;
+	
+		int x = 0;
+	
+		if (arg.charAt(0) == '-')
+		{
+			if (length == 1)
+				return false;
+			x = 1;
+		}
+	
+		for (; x < length; x++)
+		{
+			char c = arg.charAt(x);
+			if (c <= '/' || c >= ':')
+				return false;
+		}
+	
+		return true;
+	}
 }
