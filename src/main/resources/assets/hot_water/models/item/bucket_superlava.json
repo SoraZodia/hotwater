@@ -1,0 +1,6 @@
+{
+	"parent": "hot_water:item/itemRoot",
+	"textures": {
+		"layer0": "items/bucket_lava"
+	}
+}

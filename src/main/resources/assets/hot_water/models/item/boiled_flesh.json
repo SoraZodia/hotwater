@@ -1,0 +1,6 @@
+{
+	"parent": "hot_water:item/itemRoot",
+	"textures": {
+		"layer0": "hot_water:items/boiled_flesh"
+	}
+}

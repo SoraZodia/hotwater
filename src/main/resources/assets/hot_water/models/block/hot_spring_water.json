@@ -1,0 +1,8 @@
+{
+   "parent": "block/cube_all",
+   "textures": 
+   { 
+        "all": "hot_water:blocks/springWaterStill",
+		"flowing": "hot_water:blocks/hotWaterFlow"
+   }
+ }
