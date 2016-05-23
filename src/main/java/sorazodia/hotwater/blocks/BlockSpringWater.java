@@ -12,13 +12,16 @@ import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 import sorazodia.hotwater.mechanics.EffectManager;
 
-public class BlockSpringWater extends BlockFluidClassic
+public class BlockSpringWater extends BlockFluidClassic implements IName
 {
 	private float hunger = 0;
+	private final String SPRING_WATER_NAME;
 
-	public BlockSpringWater(Fluid fluid, Material material)
+	public BlockSpringWater(Fluid fluid, String name, Material material)
 	{
 		super(fluid, material);
+		this.setUnlocalizedName(name);
+		this.SPRING_WATER_NAME = name;
 	}
 
 	@Override
@@ -47,6 +50,12 @@ public class BlockSpringWater extends BlockFluidClassic
 					((EntityPlayer) living).getFoodStats().addExhaustion(hunger);
 			}
 		}
+	}
+	
+	@Override
+	public String getName()
+	{
+		return SPRING_WATER_NAME;
 	}
 
 }

@@ -33,7 +33,7 @@ public class SimpleItemsRegistry
 		tabs = tab;
 		modid = modID;
 	}
-
+	
 	/**
 	 * A more steamline way to register your items, does all of the extra stuff
 	 * for you, just make sure your item object is initializated
@@ -46,10 +46,11 @@ public class SimpleItemsRegistry
 		 if(FMLCommonHandler.instance().getSide().isClient())
 	            ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(modid + ":" + imageName, "inventory"));
 	}
-
+	
 	/**
-	 * This method is used when the item's name is the same as its texture name.
-	 * Helps reduce repetivite typing #lazy:P. Please make sure your item object
+	 * This method is used when the item's name is the same as its texture name. And the item
+	 * don't uses metadata.<br>
+	 * Helps reduce repetivite typing. Please make sure your item object
 	 * is initializated
 	 */
 	public static void registerItems(Item item, String name)

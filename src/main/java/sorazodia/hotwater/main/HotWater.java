@@ -13,6 +13,7 @@ import net.minecraftforge.common.BiomeManager.BiomeType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -37,6 +38,9 @@ public class HotWater
 
 	@Mod.Instance
 	public static HotWater hotWater;
+	
+	@SidedProxy(clientSide = "sorazodia.hotwater.main.ClientProxy", serverSide = "sorazodia.hotwater.main.ServerProxy")
+	public static CommonProxy proxy;
 
 	public static DamageSource Boiled = new DamageSource("hot_water.boiled");
 	public static DamageSource Melted = new DamageSource("hot_water.Melted").setFireDamage().setDamageBypassesArmor().setDamageIsAbsolute();
@@ -66,13 +70,10 @@ public class HotWater
 		MinecraftForge.EVENT_BUS.register(new BucketHandler());
 		MinecraftForge.EVENT_BUS.register(config);
 
-		BoiledFoodRegistry.init();	
-
 		GameRegistry.registerFuelHandler(new FuelHandler());
 
 		if (addBiome(new BiomeHotSpring(ConfigHandler.getBiomeID()), 10, BiomeType.ICY, Type.COLD) == false)
 			log.error("Biome Registeration Failed");
-		
 	}
 
 	@EventHandler
@@ -81,7 +82,8 @@ public class HotWater
 		log.info("Registering Recipes");
 		
         SmeltingRegistry.addSmelting(Items.water_bucket, ItemRegistry.hotWaterBucket, 0.3F);
-		
+        BoiledFoodRegistry.init();
+        
 		if (ConfigHandler.enableSuperLava() == true)
 		{
 			GameRegistry.addShapelessRecipe(new ItemStack(ItemRegistry.superlavaBucket, 1, 0), Items.lava_bucket, Items.nether_star);

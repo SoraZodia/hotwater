@@ -164,7 +164,7 @@ public class ItemSuperLavaBucket extends Item
 	@Override
 	public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4)
 	{
-		if (itemStack.getItemDamage() == 1)
+		if (itemStack.getMetadata() == 1)
 			list.add("You shouldn't be playing with this...");
 		else
 			list.add("Inactive");

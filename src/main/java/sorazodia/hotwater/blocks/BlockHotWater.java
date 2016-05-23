@@ -2,6 +2,7 @@ package sorazodia.hotwater.blocks;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
@@ -11,12 +12,15 @@ import net.minecraftforge.fluids.Fluid;
 import sorazodia.hotwater.config.BoilList;
 import sorazodia.hotwater.main.HotWater;
 
-public class BlockHotWater extends BlockFluidClassic
+public class BlockHotWater extends BlockFluidClassic implements IName
 {
-
-	public BlockHotWater(Fluid fluid, Material material)
+	private final String WATER_NAME;
+	
+	public BlockHotWater(Fluid fluid, String name, Material material)
 	{
 		super(fluid, material);
+		this.setUnlocalizedName(name);
+		this.WATER_NAME = name;
 	}
 
 	@Override
@@ -25,19 +29,19 @@ public class BlockHotWater extends BlockFluidClassic
 		int x = pos.getX();
 		int y = pos.getY();
 		int z = pos.getZ();
-		
-		if (!(entity instanceof EntityItem))
+
+		if (entity instanceof EntityLivingBase)
 		{
 			entity.attackEntityFrom(HotWater.Boiled, 2.0F);
 			world.playSoundEffect((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F, "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 		}
-		if (entity instanceof EntityItem && !world.isRemote)
-			cookingEffect(world, x, y, z, entity);
+		else if (entity instanceof EntityItem && !world.isRemote)
+			cook(world, x, y, z, (EntityItem) entity);
 	}
 
-	private void cookingEffect(World world, int x, int y, int z, Entity entity)
+	private void cook(World world, int x, int y, int z, EntityItem entity)
 	{
-		EntityItem itemEntity = (EntityItem) entity;
+		EntityItem itemEntity = entity;
 		ItemStack input = itemEntity.getEntityItem();
 
 		for (int q = 0; q < BoilList.size(); q++)
@@ -50,7 +54,8 @@ public class BlockHotWater extends BlockFluidClassic
 			{
 				if (itemStack.getItem() == input.getItem())
 					boil(world, x, y, z, itemEntity, BoilList.getOutput(q), input.stackSize);
-			} else if (itemStack.getItem() == input.getItem() && itemStack.getItemDamage() == input.getItemDamage())
+			}
+			else if (itemStack.getItem() == input.getItem() && itemStack.getItemDamage() == input.getItemDamage())
 			{
 				boil(world, x, y, z, itemEntity, BoilList.getOutput(q), input.stackSize);
 			}
@@ -70,6 +75,12 @@ public class BlockHotWater extends BlockFluidClassic
 			itemEntity.entityDropItem(new ItemStack(output.getItem(), 1, output.getItemDamage()), 0F);
 
 		itemEntity.setDead();
+	}
+	
+	@Override
+	public String getName()
+	{
+		return WATER_NAME;
 	}
 
 }

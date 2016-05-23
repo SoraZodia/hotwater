@@ -10,12 +10,16 @@ import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 import sorazodia.hotwater.main.HotWater;
 
-public class BlockSuperLava extends BlockFluidClassic{
-
-	public BlockSuperLava(Fluid fluid, Material material) 
+public class BlockSuperLava extends BlockFluidClassic implements IName
+{
+	private final String SUPERLAVA_NAME;
+	
+	public BlockSuperLava(Fluid fluid, String name, Material material) 
 	{
 		super(fluid, material);
-		disableStats();
+		this.disableStats();
+		this.setUnlocalizedName(name);
+		this.SUPERLAVA_NAME = name;
 	}
 
 	@Override
@@ -39,6 +43,12 @@ public class BlockSuperLava extends BlockFluidClassic{
 		Block block = world.getBlockState(pos).getBlock();
 		if(block == this)return false;
 		else return true;
+	}
+	
+	@Override
+	public String getName()
+	{
+		return SUPERLAVA_NAME;
 	}
 
 }
