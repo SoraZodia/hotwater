@@ -29,7 +29,7 @@ public class BlockSpringWater extends BlockFluidClassic implements IName
 	}
 
 	@Override
-	public void onEntityCollidedWithBlock(World world, BlockPos pos, Entity entity)
+	public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state,Entity entity)
 	{
 		if ((entity instanceof EntityLivingBase)&& !world.isRemote)
 		{

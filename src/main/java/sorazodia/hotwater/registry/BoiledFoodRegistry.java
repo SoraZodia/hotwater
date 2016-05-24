@@ -9,6 +9,8 @@ public class BoiledFoodRegistry
 {
 	public static void init()
 	{
+		BoilList.put(new ItemData(Items.mutton, Items.cooked_mutton));
+		BoilList.put(new ItemData(Items.rabbit, Items.cooked_rabbit));
 		BoilList.put(new ItemData(Items.chicken, Items.cooked_chicken));
 		BoilList.put(new ItemData(Items.porkchop, Items.cooked_porkchop));
 		BoilList.put(new ItemData(Items.beef, Items.cooked_beef));
