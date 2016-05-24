@@ -1,11 +1,15 @@
 package sorazodia.hotwater.blocks;
 
+import java.util.Random;
+
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
@@ -82,5 +86,20 @@ public class BlockHotWater extends BlockFluidClassic implements IName
 	{
 		return WATER_NAME;
 	}
+	
+	@Override
+	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random random)
+    {
+     	 if (random.nextInt(2) != 0)
+				return;
+
+		for (int l = 0; l < 2; l++)
+		{
+			double x = pos.getX() + random.nextFloat();
+			double y = pos.getY() + 1.2;
+			double z = pos.getZ() + random.nextFloat();
+			world.spawnParticle(EnumParticleTypes.CLOUD, x, y, z, 0.0, 0.1, 0.0);
+		}
+	 }
 
 }
