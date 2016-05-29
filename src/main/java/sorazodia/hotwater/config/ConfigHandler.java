@@ -41,6 +41,7 @@ public class ConfigHandler
 	public void syncConfig()
 	{
 		addToIDList(config.getStringList("Potion Clear List", Configuration.CATEGORY_GENERAL, potionList, "Id to the potion effect that will be removed via hot spring"), ListType.BLACKLIST);
+		addToIDList(config.getStringList("Potion Ignore List", Configuration.CATEGORY_GENERAL, potionList, "Id to the potion effect that will not be removed via hot spring, does not overwrite the clear list"), ListType.WHITELIST);
 		biomeID = config.getInt("BiomeID For Hot Springs", Configuration.CATEGORY_GENERAL, 50, 40, 128, "The ID for the Hot Springs Biome [Require MC to be restarted]");
 		enableSuperLava = config.getBoolean("Enable Super Lava", Configuration.CATEGORY_GENERAL, false, "If you want crazy lava in your world [Require MC to be restarted]");
 		if (config.hasChanged())
@@ -85,6 +86,7 @@ public class ConfigHandler
 	@SubscribeEvent
 	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent config)
 	{
+		EffectManager.clear();
 		syncConfig();
 	}
 

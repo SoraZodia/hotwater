@@ -66,4 +66,9 @@ public class EffectManager
 		return whitelist;
 	}
 	
+	public static void clear()
+	{
+		blacklist.clear();
+		whitelist.clear();
+	}
 }
