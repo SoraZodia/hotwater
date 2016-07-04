@@ -8,9 +8,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
@@ -36,13 +36,13 @@ public class ItemSuperLavaBucket extends Item
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
 	{
 		boolean flag = false;
-		MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(world,
-				player, flag);
+		RayTraceResult movingobjectposition = this.rayTrace(world, player, flag);
 
 		if (movingobjectposition == null)
 		{
 			return itemStack;
-		} else
+		}
+		else
 		{
 			FillBucketEvent event = new FillBucketEvent(player, itemStack, world, movingobjectposition);
 			if (MinecraftForge.EVENT_BUS.post(event))
@@ -59,24 +59,25 @@ public class ItemSuperLavaBucket extends Item
 
 				if (--itemStack.stackSize <= 0)
 				{
-					return event.result;
+					return event.getEmptyBucket();
 				}
 
-				if (!player.inventory.addItemStackToInventory(event.result))
+				if (!player.inventory.addItemStackToInventory(event.getFilledBucket()))
 				{
-					player.dropPlayerItemWithRandomChoice(event.result, false);
+					player.dropItem(event.getFilledBucket(), false);
 				}
 
 				return itemStack;
 			}
-			if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+			if (movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK)
 			{
 				BlockPos pos = movingobjectposition.getBlockPos();
 
 				if (!world.canMineBlockBody(player, pos))
 				{
 					return itemStack;
-				} else
+				}
+				else
 				{
 					switch (movingobjectposition.sideHit)
 					{
@@ -107,7 +108,7 @@ public class ItemSuperLavaBucket extends Item
 
 					if (itemStack.getItemDamage() == 1)
 					{
-						ItemStack bucket = new ItemStack(Items.bucket);
+						ItemStack bucket = new ItemStack(Items.BUCKET);
 						if (player.capabilities.isCreativeMode)
 							bucket = itemStack;
 

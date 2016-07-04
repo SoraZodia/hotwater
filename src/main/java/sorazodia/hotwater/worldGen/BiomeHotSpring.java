@@ -1,22 +1,16 @@
 package sorazodia.hotwater.worldGen;
 
 import net.minecraft.init.Blocks;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.Biome;
 import sorazodia.hotwater.registry.LiquidRegistry;
 
-public class BiomeHotSpring extends BiomeGenBase
+public class BiomeHotSpring extends Biome
 {
-	
-	public BiomeHotSpring(int id) 
+	public BiomeHotSpring() 
 	{
-		super(id);
+		super(new BiomeProperties("Hot Springs").setRainDisabled().setSnowEnabled().setBaseHeight(0));
 		topBlock = LiquidRegistry.blockSpringWater.getDefaultState();
-		fillerBlock = Blocks.cobblestone.getDefaultState();
-		temperature = -0.5F;
-		setEnableSnow();
-		setBiomeName("Hot Springs");
-		setHeight(new Height(0F, 0F));
-		setDisableRain();
+		fillerBlock = Blocks.COBBLESTONE.getDefaultState();
 	}
 
 }

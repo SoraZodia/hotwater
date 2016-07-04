@@ -2,8 +2,8 @@ package sorazodia.hotwater.mechanics;
 
 import java.util.ArrayList;
 
-import sorazodia.hotwater.main.HotWater;
 import net.minecraft.potion.Potion;
+import sorazodia.hotwater.main.HotWater;
 
 public class EffectManager
 {	
@@ -18,9 +18,9 @@ public class EffectManager
 		int potionID = 0;
 		boolean result = false;
 		
-		if (HotWater.isInteger(id) && (potionID = Integer.parseInt(id)) < Potion.potionTypes.length)
+		if (HotWater.isInteger(id))
 		{
-			blacklist.add(Potion.potionTypes[potionID]);
+			blacklist.add(Potion.getPotionById(potionID));
 			result = true;
 		}
 		else if (Potion.getPotionFromResourceLocation(id) != null)
@@ -41,9 +41,9 @@ public class EffectManager
 		int potionID = 0;
 		boolean result = false;
 		
-		if (HotWater.isInteger(id) && (potionID = Integer.parseInt(id)) < Potion.potionTypes.length)
+		if (HotWater.isInteger(id))
 		{
-			whitelist.add(Potion.potionTypes[potionID]);
+			whitelist.add(Potion.getPotionById(potionID));
 			result = true;
 		}
 		else if (Potion.getPotionFromResourceLocation(id) != null)

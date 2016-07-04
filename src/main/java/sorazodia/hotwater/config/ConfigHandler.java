@@ -2,7 +2,7 @@ package sorazodia.hotwater.config;
 
 import java.util.ArrayList;
 
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -18,7 +18,6 @@ public class ConfigHandler
 	public static Configuration config;
 
 	private static boolean enableSuperLava = false;
-	private static int biomeID = 50;
 
 	private static String[] potionList = {};
 	private static ArrayList<String> invalidEntry = new ArrayList<>();
@@ -42,7 +41,6 @@ public class ConfigHandler
 	{
 		addToIDList(config.getStringList("Potion Clear List", Configuration.CATEGORY_GENERAL, potionList, "Id to the potion effect that will be removed via hot spring"), ListType.BLACKLIST);
 		addToIDList(config.getStringList("Potion Ignore List", Configuration.CATEGORY_GENERAL, potionList, "Id to the potion effect that will not be removed via hot spring, does not overwrite the clear list"), ListType.WHITELIST);
-		biomeID = config.getInt("BiomeID For Hot Springs", Configuration.CATEGORY_GENERAL, 50, 40, 128, "The ID for the Hot Springs Biome [Require MC to be restarted]");
 		enableSuperLava = config.getBoolean("Enable Super Lava", Configuration.CATEGORY_GENERAL, false, "If you want crazy lava in your world [Require MC to be restarted]");
 		if (config.hasChanged())
 			config.save();
@@ -78,11 +76,6 @@ public class ConfigHandler
 		return enableSuperLava;
 	}
 
-	public static int getBiomeID()
-	{
-		return biomeID;
-	}
-
 	@SubscribeEvent
 	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent config)
 	{
@@ -94,7 +87,7 @@ public class ConfigHandler
 	public void alertPlayer(PlayerLoggedInEvent joinEvent)
 	{
 		if (invalidEntry.size() > 0)
-			joinEvent.player.addChatComponentMessage(new ChatComponentTranslation("[Hot Water] %s is not a valid number", invalidEntry.toString()));
+			joinEvent.player.addChatComponentMessage(new TextComponentTranslation("[Hot Water] %s is not a valid entry", invalidEntry.toString()));
 	}
 
 }

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
@@ -18,13 +18,13 @@ public class BucketHandler
 	@SubscribeEvent
 	public void useBucketEvent(FillBucketEvent onFill)
 	{
-		World world = onFill.world;
-		MovingObjectPosition blockPosition = onFill.target;
+		World world = onFill.getWorld();
+		RayTraceResult blockPosition = onFill.getTarget();
 		Block targetBlock = world.getBlockState(blockPosition.getBlockPos()).getBlock();
 		
 		if (map.containsKey(targetBlock) && world.getBlockState(blockPosition.getBlockPos()).equals(targetBlock.getDefaultState()))
 		{
-			onFill.result = map.get(targetBlock).copy();
+			onFill.setFilledBucket(map.get(targetBlock).copy());
 			world.setBlockToAir(blockPosition.getBlockPos());
 			onFill.setResult(Event.Result.ALLOW);
 		}

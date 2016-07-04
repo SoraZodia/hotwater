@@ -9,8 +9,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
@@ -36,15 +36,15 @@ public class BlockSpringWater extends BlockFluidClassic implements IName
 			EntityLivingBase living = (EntityLivingBase) entity;
 			for (Potion remove : EffectManager.getBlacklist())
 			{
-				living.removePotionEffect(remove.id);
+				living.removePotionEffect(remove);
 			}
 			
 			for (PotionEffect activeEffect : living.getActivePotionEffects())
 			{
-				Potion potion = Potion.potionTypes[activeEffect.getPotionID()];
+				Potion potion = activeEffect.getPotion();
 				
 				if (potion.isBadEffect() && !EffectManager.getWhitelist().contains(potion))
-					living.removePotionEffect(activeEffect.getPotionID());
+					living.removePotionEffect(potion);
 			}
 
 			if (living.ticksExisted % 100 == 0 && living.getHealth() > 0)
@@ -63,7 +63,7 @@ public class BlockSpringWater extends BlockFluidClassic implements IName
 	}
 
 	@Override
-	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random random)
+	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random)
     {
 		for (int l = 0; l < 4; l++)	
 		{

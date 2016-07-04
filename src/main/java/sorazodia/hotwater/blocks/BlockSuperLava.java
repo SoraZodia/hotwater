@@ -6,8 +6,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
@@ -36,7 +36,7 @@ public class BlockSuperLava extends BlockFluidClassic implements IName
 	public boolean canDisplace(IBlockAccess world, BlockPos pos)
 	{			
 		Block block = world.getBlockState(pos).getBlock();
-		if(block.isAir(world, pos))return true;
+		if(block.isAir(world.getBlockState(pos), world, pos))return true;
 		if(block == this)return false;
 		else return true;
 	}
@@ -56,7 +56,7 @@ public class BlockSuperLava extends BlockFluidClassic implements IName
 	}
 
 	@Override
-	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random random)
+	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random)
     {
 		for (int l = 0; l < 4; l++)	
 		{

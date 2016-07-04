@@ -4,7 +4,7 @@ import static sorazodia.hotwater.main.HotWater.*;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.BiomeManager;
@@ -33,7 +33,7 @@ public class HotWater
 {
 	public static final String MODID = "hot_water";
 	public static final String NAME = "Hot Water Mod";
-	public static final String VERSION = "1.1.2";
+	public static final String VERSION = "2.0.0";
 	public static final String GUI_FACTORY = "sorazodia.hotwater.config.ConfigGUIFactory";
 
 	@Mod.Instance
@@ -72,7 +72,7 @@ public class HotWater
 
 		GameRegistry.registerFuelHandler(new FuelHandler());
 
-		if (addBiome(new BiomeHotSpring(ConfigHandler.getBiomeID()), 10, BiomeType.ICY, Type.COLD) == false)
+		if (addBiome(new BiomeHotSpring(), 10, BiomeType.ICY, Type.COLD) == false)
 			log.error("Biome Registeration Failed");
 	}
 
@@ -81,19 +81,19 @@ public class HotWater
 	{
 		log.info("Registering Recipes");
 		
-        SmeltingRegistry.addSmelting(Items.water_bucket, ItemRegistry.hotWaterBucket, 0.3F);
+        SmeltingRegistry.addSmelting(Items.WATER_BUCKET, ItemRegistry.hotWaterBucket, 0.3F);
         BoiledFoodRegistry.init();
         
 		if (ConfigHandler.enableSuperLava() == true)
 		{
-			GameRegistry.addShapelessRecipe(new ItemStack(ItemRegistry.superlavaBucket, 1, 0), Items.lava_bucket, Items.nether_star);
+			GameRegistry.addShapelessRecipe(new ItemStack(ItemRegistry.superlavaBucket, 1, 0), Items.LAVA_BUCKET, Items.NETHER_STAR);
 			SmeltingRegistry.addSmelting(ItemRegistry.superlavaBucket, new ItemStack(ItemRegistry.superlavaBucket, 1, 1));
 		}
 		
 		log.info("Loaded");
 	}
 	
-	private boolean addBiome(BiomeGenBase biome, int weight, BiomeType biomeType, Type type)
+	private boolean addBiome(Biome biome, int weight, BiomeType biomeType, Type type)
 	{
 		BiomeManager.addBiome(biomeType, new BiomeEntry(biome, weight));
 		return BiomeDictionary.registerBiomeType(biome, type);
