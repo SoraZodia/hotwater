@@ -42,9 +42,9 @@ public class LiquidRegistry
 		blockSpringWater = new BlockSpringWater(springWater, SPRING_WATER_NAME,Material.WATER).setHardness(100F);
 		blockSuperLava = new BlockSuperLava(superlava, SUPERLAVA_NAME,Material.LAVA).setHardness(100F).setLightLevel(10.0F);
 		
-		GameRegistry.registerBlock(blockHotWater, WATER_NAME);		
-		GameRegistry.registerBlock(blockSpringWater, SPRING_WATER_NAME);
-		GameRegistry.registerBlock(blockSuperLava, SUPERLAVA_NAME);		
+		GameRegistry.register(blockHotWater, new ResourceLocation(WATER_NAME));		
+		GameRegistry.register(blockSpringWater, new ResourceLocation(SPRING_WATER_NAME));
+		GameRegistry.register(blockSuperLava, new ResourceLocation(SUPERLAVA_NAME));		
 		
 		proxy.registerBlockState(blockHotWater);
 		proxy.registerBlockState(blockSpringWater);

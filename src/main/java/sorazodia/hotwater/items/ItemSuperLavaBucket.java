@@ -2,125 +2,23 @@ package sorazodia.hotwater.items;
 
 import java.util.List;
 
+import sorazodia.hotwater.registry.LiquidRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.FillBucketEvent;
-import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import sorazodia.hotwater.registry.LiquidRegistry;
 
-public class ItemSuperLavaBucket extends Item
+public class ItemSuperLavaBucket extends ItemModBucket
 {
-	private boolean burn = false;
 
-	public ItemSuperLavaBucket(boolean burn)
+	public ItemSuperLavaBucket()
 	{
-		this.burn = burn;
+		super(LiquidRegistry.blockSuperLava);
 		this.maxStackSize = 1;
-	}
-
-	/**
-	 * Called whenever this item is equipped and the right mouse button is
-	 * pressed. Args: itemStack, world, entityPlayer
-	 */
-	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
-	{
-		boolean flag = false;
-		RayTraceResult movingobjectposition = this.rayTrace(world, player, flag);
-
-		if (movingobjectposition == null)
-		{
-			return itemStack;
-		}
-		else
-		{
-			FillBucketEvent event = new FillBucketEvent(player, itemStack, world, movingobjectposition);
-			if (MinecraftForge.EVENT_BUS.post(event))
-			{
-				return itemStack;
-			}
-
-			if (event.getResult() == Event.Result.ALLOW)
-			{
-				if (player.capabilities.isCreativeMode)
-				{
-					return itemStack;
-				}
-
-				if (--itemStack.stackSize <= 0)
-				{
-					return event.getEmptyBucket();
-				}
-
-				if (!player.inventory.addItemStackToInventory(event.getFilledBucket()))
-				{
-					player.dropItem(event.getFilledBucket(), false);
-				}
-
-				return itemStack;
-			}
-			if (movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK)
-			{
-				BlockPos pos = movingobjectposition.getBlockPos();
-
-				if (!world.canMineBlockBody(player, pos))
-				{
-					return itemStack;
-				}
-				else
-				{
-					switch (movingobjectposition.sideHit)
-					{
-					case UP:
-						pos.down();
-						break;
-					case DOWN:
-						pos.up();
-						break;
-					case EAST:
-						pos.west();
-						break;
-					case WEST:
-						pos.east();
-						break;
-					case NORTH:
-						pos.south();
-						break;
-					case SOUTH:
-						pos.north();
-						break;
-					}
-
-					if (!player.canPlayerEdit(pos, movingobjectposition.sideHit, itemStack))
-					{
-						return itemStack;
-					}
-
-					if (itemStack.getItemDamage() == 1)
-					{
-						ItemStack bucket = new ItemStack(Items.BUCKET);
-						if (player.capabilities.isCreativeMode)
-							bucket = itemStack;
-
-						world.setBlockState(pos, LiquidRegistry.blockSuperLava.getDefaultState());
-
-						return bucket;
-					}
-				}
-			}
-
-			return itemStack;
-		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -140,7 +38,7 @@ public class ItemSuperLavaBucket extends Item
 	 */
 	public void onUpdate(ItemStack itemstack, World world, Entity entity, int solt, boolean isSelected)
 	{
-		if (entity instanceof EntityLivingBase && burn)
+		if (entity instanceof EntityLivingBase)
 		{
 			float damage = 0;
 			int duration = 0;
