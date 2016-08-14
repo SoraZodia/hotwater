@@ -6,8 +6,13 @@ import sorazodia.hotwater.registry.LiquidRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -31,7 +36,29 @@ public class ItemSuperLavaBucket extends ItemModBucket
 
 		return shiny;
 	}
+	
+	@Override
+	public SoundEvent getFilledSound()
+	{
+		return SoundEvents.ITEM_BUCKET_FILL;
+	}
 
+	@Override
+	protected SoundEvent getPourSound()
+	{
+		return SoundEvents.ITEM_BUCKET_EMPTY_LAVA;
+	}
+	
+	@Override
+	protected ActionResult<ItemStack> pour(BlockPos pos, EntityPlayer player, World world, ItemStack filledBucket)
+	{
+		if (filledBucket.getItemDamage() == 1)
+		{
+			return super.pour(pos, player, world, filledBucket);
+		}
+		return new ActionResult<ItemStack>(EnumActionResult.PASS, filledBucket);
+	}
+	
 	/**
 	 * Called each tick as long the item is on a player inventory. Uses by maps
 	 * to check if is on a player hand and update it's contents.

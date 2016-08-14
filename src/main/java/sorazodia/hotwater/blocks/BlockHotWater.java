@@ -7,6 +7,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
@@ -38,8 +39,8 @@ public class BlockHotWater extends BlockFluidClassic implements IName
 		{
 			entity.attackEntityFrom(HotWater.Boiled, 2.0F);
 
-			//if (entity instanceof EntityPlayer)
-			world.playSound(null, pos.add(0.5, 0.5, 0.5), new SoundEvent(new ResourceLocation("random.fizz")), SoundCategory.AMBIENT, 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+			//if (entity instanceof EntityPlayer) new SoundEvent(new ResourceLocation("random.fizz"))
+			world.playSound(null, pos.add(0.5, 0.5, 0.5), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.AMBIENT, 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 		}
 		else if (entity instanceof EntityItem && !world.isRemote)
 			cook(world, pos, (EntityItem) entity);

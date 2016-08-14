@@ -10,7 +10,7 @@ public class BoilList
 	
 	private static ArrayList<ItemData> boilList = new ArrayList<ItemData>();
 
-	public static void put(ItemData data)
+	public static void register(ItemData data)
 	{
 		boilList.add(data);
 	}
