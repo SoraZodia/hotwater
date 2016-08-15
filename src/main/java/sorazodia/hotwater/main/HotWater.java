@@ -1,6 +1,9 @@
 package sorazodia.hotwater.main;
 
 import static sorazodia.hotwater.main.HotWater.*;
+
+import java.io.IOException;
+
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
@@ -21,6 +24,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Logger;
 
 import sorazodia.hotwater.config.ConfigHandler;
+import sorazodia.hotwater.config.FoodPaser;
 import sorazodia.hotwater.registry.BoiledFoodRegistry;
 import sorazodia.hotwater.registry.ItemRegistry;
 import sorazodia.hotwater.registry.LiquidRegistry;
@@ -49,6 +53,7 @@ public class HotWater
 
 	private Logger log;
 	public static ConfigHandler config;
+	public static FoodPaser scanner;
 
 	@EventHandler
 	public void PreInit(FMLPreInitializationEvent event)
@@ -58,7 +63,8 @@ public class HotWater
 		log.info("Registering Config, Items and Liquid");
 
 		config = new ConfigHandler(event, log);
-
+		scanner = new FoodPaser(event.getModConfigurationDirectory().getAbsolutePath());
+		
 		LiquidRegistry.register();
 		ItemRegistry.register();
 		
@@ -83,6 +89,16 @@ public class HotWater
 		
         SmeltingRegistry.addSmelting(Items.WATER_BUCKET, ItemRegistry.hotWaterBucket, 0.3F);
         BoiledFoodRegistry.init();
+        
+        try
+		{
+			scanner.parse();
+		}
+		catch (IOException e)
+		{
+			log.error("Unable to read file");
+			e.printStackTrace();
+		}
         
 		if (ConfigHandler.enableSuperLava() == true)
 		{
