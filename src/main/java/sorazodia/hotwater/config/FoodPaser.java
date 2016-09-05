@@ -6,7 +6,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -14,9 +16,12 @@ import sorazodia.hotwater.main.HotWater;
 
 public class FoodPaser
 {
-	BufferedWriter writer;
-	BufferedReader reader;
-	File folder;
+	private BufferedWriter writer;
+	private BufferedReader reader;
+	private File folder;
+	private String lastRead;
+	
+	private ArrayList<ItemData> customList = new ArrayList<>();
 
 	public FoodPaser(String path)
 	{
@@ -37,12 +42,17 @@ public class FoodPaser
 
 		for (File config : configs)
 		{
+			
+			lastRead = config.getName();
 
 			reader = new BufferedReader(new FileReader(config));
 
 			while ((line = reader.readLine()) != null)
 			{
 				data = line.split(",");
+				
+				if (line.startsWith("//"))
+					continue;
 				
 				if (data.length == 3)
 					BoilList.register(new ItemData(conventString(data[0]), conventString(data[1]), Boolean.valueOf(data[2].trim())));
@@ -57,6 +67,11 @@ public class FoodPaser
 	public void write() throws IOException
 	{
 		writer = new BufferedWriter(new FileWriter(folder.getAbsolutePath() + "\\custom.txt"));
+	
+	    for (ItemData data : customList)
+	    	writer.write(data.toConfig());
+	    
+	    writer.close();
 	}
 
 	private ItemStack conventString(String itemName)
@@ -82,8 +97,18 @@ public class FoodPaser
 		{
 			item = new ItemStack(Item.getByNameOrId(itemName));
 		}
+		
+		//Failsafe
+		if (item.getItem() == null)
+			item = new ItemStack(Blocks.AIR);
 
 		return item;
 	}
+
+	public String getLastRead()
+	{
+		return lastRead;
+	}
+
 
 }

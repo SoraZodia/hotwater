@@ -1,5 +1,6 @@
 package sorazodia.registryhelper;
 
+import sorazodia.hotwater.main.HotWater;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -41,7 +42,7 @@ public class SimpleItemsRegistry
 	 */
 	public static void registerItems(Item item, String itemName, String imageName)
 	{
-		GameRegistry.register(item, new ResourceLocation(itemName));
+		GameRegistry.register(item, new ResourceLocation(HotWater.MODID + ":" + itemName));
 		item.setCreativeTab(tabs).setUnlocalizedName(itemName);
 		
 		 if(FMLCommonHandler.instance().getSide().isClient())

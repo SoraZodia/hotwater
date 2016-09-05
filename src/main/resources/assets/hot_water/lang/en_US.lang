@@ -15,3 +15,7 @@ death.attack.hot_water.Melted=%1$s melted
 death.attack.hot_water.Melted.player=%1$s melted whilst fight %2$s
 
 itemGroup.HotWater=Hot Water Mod
+
+hotwater.parse.read.fail=Failed to read file [$s]
+hotwater.parse.read.success=Updated
+hotwater.parse.read=Updating mappings

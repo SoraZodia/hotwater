@@ -52,8 +52,8 @@ public class HotWater
 	public static HotWaterTab hotWaterTab = new HotWaterTab();
 
 	private Logger log;
-	public static ConfigHandler config;
-	public static FoodPaser scanner;
+	private static ConfigHandler config;
+	private static FoodPaser scanner;
 
 	@EventHandler
 	public void PreInit(FMLPreInitializationEvent event)
@@ -96,7 +96,7 @@ public class HotWater
 		}
 		catch (IOException e)
 		{
-			log.error("Unable to read file");
+			log.error("Unable to read file " + "["+ scanner.getLastRead() +"]");
 			e.printStackTrace();
 		}
         
@@ -113,6 +113,11 @@ public class HotWater
 	{
 		BiomeManager.addBiome(biomeType, new BiomeEntry(biome, weight));
 		return BiomeDictionary.registerBiomeType(biome, type);
+	}
+	
+	public static FoodPaser getScanner()
+	{
+		return scanner;
 	}
 
 	// Thank you StackOverflow

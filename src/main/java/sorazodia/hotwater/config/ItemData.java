@@ -56,10 +56,27 @@ public class ItemData
 		return ignoreMetadata;
 	}
 
+	public String toConfig()
+	{
+		String str = input.getItem().getUnlocalizedName();
+		
+		if (!ignoreMetadata)
+			str += "#" + input.getItemDamage() + ","; 
+		else
+			str += ",";
+		
+		if (output.getItemDamage() > 0)
+			str += output.getItem().getUnlocalizedName() + "#" + output.getItemDamage() + "," + ignoreMetadata + "\n";
+		else
+			str += output.getItem().getUnlocalizedName() + "," + ignoreMetadata + "\n";
+		
+		return str;
+	}
+	
 	@Override
 	public String toString()
 	{
-		return input.getItem().getUnlocalizedName() + input.getItemDamage() + input.getTagCompound().toString();
+		return input.getItem().getUnlocalizedName() + "#" +input.getItemDamage() + input.getTagCompound().toString();
 	}
 
 }

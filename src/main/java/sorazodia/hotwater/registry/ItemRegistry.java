@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import sorazodia.hotwater.items.ItemDevBucket;
 import sorazodia.hotwater.items.ItemModBucket;
 import sorazodia.hotwater.items.ItemSuperLavaBucket;
 import sorazodia.hotwater.main.HotWater;
@@ -26,6 +27,8 @@ public class ItemRegistry
 	public static Item springWaterBucket = new ItemModBucket(LiquidRegistry.blockSpringWater);
 	public static Item superlavaBucket = new ItemSuperLavaBucket().setUnlocalizedName("bucket_superlava").setCreativeTab(HotWater.hotWaterTab);
 
+	private static Item devBucket = new ItemDevBucket().setCreativeTab(HotWater.hotWaterTab);
+	
 	public static void register()
 	{
         SimpleItemsRegistry.init(HotWater.MODID, HotWater.hotWaterTab);
@@ -36,12 +39,13 @@ public class ItemRegistry
 
         SimpleItemsRegistry.registerItems(hotWaterBucket, "bucket_hot_water");
         SimpleItemsRegistry.registerItems(springWaterBucket, "bucket_spring_water");
+        SimpleItemsRegistry.registerItems(devBucket, "bucket_dev");
         registerSuperLava();
 	}
 	
 	private static void registerSuperLava()
 	{
-		 GameRegistry.register(superlavaBucket, new ResourceLocation("bucket_superlava"));
+		 GameRegistry.register(superlavaBucket, new ResourceLocation(HotWater.MODID + ":bucket_superlava"));
 	        if(FMLCommonHandler.instance().getSide().isClient())
 	        {
 	            ModelLoader.setCustomModelResourceLocation(superlavaBucket, 0, new ModelResourceLocation("lava_bucket", "inventory"));

@@ -15,6 +15,11 @@ public class BoilList
 		boilList.add(data);
 	}
 
+	public static void reset()
+	{
+		boilList.clear();
+	}
+	
 	public static boolean ignoreMetaData(int index)
 	{
 		return boilList.get(index).ignoreMetadata();
