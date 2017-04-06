@@ -37,7 +37,7 @@ public class HotWater
 {
 	public static final String MODID = "hot_water";
 	public static final String NAME = "Hot Water Mod";
-	public static final String VERSION = "2.0.0";
+	public static final String VERSION = "3.0.2";
 	public static final String GUI_FACTORY = "sorazodia.hotwater.config.ConfigGUIFactory";
 
 	@Mod.Instance
@@ -78,8 +78,7 @@ public class HotWater
 
 		GameRegistry.registerFuelHandler(new FuelHandler());
 
-		if (addBiome(new BiomeHotSpring(), 10, BiomeType.ICY, Type.COLD) == false)
-			log.error("Biome Registeration Failed");
+		addBiome(new BiomeHotSpring(), 10, BiomeType.ICY, Type.COLD);
 	}
 
 	@EventHandler
@@ -109,10 +108,10 @@ public class HotWater
 		log.info("Loaded");
 	}
 	
-	private boolean addBiome(Biome biome, int weight, BiomeType biomeType, Type type)
+	private void addBiome(Biome biome, int weight, BiomeType biomeType, Type type)
 	{
 		BiomeManager.addBiome(biomeType, new BiomeEntry(biome, weight));
-		return BiomeDictionary.registerBiomeType(biome, type);
+		BiomeDictionary.addTypes(biome, type);
 	}
 	
 	public static FoodPaser getScanner()

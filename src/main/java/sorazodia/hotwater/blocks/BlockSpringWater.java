@@ -47,7 +47,7 @@ public class BlockSpringWater extends BlockFluidClassic implements IName
 					living.removePotionEffect(potion);
 			}
 
-			if (living.ticksExisted % 100 == 0 && living.getHealth() > 0)
+			if (living.ticksExisted % 60 == 0 && living.getHealth() > 0)
 			{
 				living.setHealth(living.getHealth() + 0.5F);
 				if (living instanceof EntityPlayer)

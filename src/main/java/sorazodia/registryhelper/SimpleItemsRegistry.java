@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
- * Item registry class for Cannibalism mod, have methods to make item
+ * Item registry class for Hot Water mod, have methods to make item
  * registation in the GameRegistry a bit easier/less typing. THE init() METHOD
  * MUST BE CALLED FOR IT TO WORK
  * 

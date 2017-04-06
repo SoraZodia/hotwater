@@ -60,11 +60,11 @@ public class BlockHotWater extends BlockFluidClassic implements IName
 			if (ignoreMeta == true)
 			{
 				if (itemStack.getItem() == input.getItem())
-					boil(world, pos, itemEntity, BoilList.getOutput(q), input.stackSize);
+					boil(world, pos, itemEntity, BoilList.getOutput(q), input.getCount());
 			}
 			else if (itemStack.getItem() == input.getItem() && itemStack.getItemDamage() == input.getItemDamage())
 			{
-				boil(world, pos, itemEntity, BoilList.getOutput(q), input.stackSize);
+				boil(world, pos, itemEntity, BoilList.getOutput(q), input.getCount());
 			}
 
 		}
@@ -75,8 +75,8 @@ public class BlockHotWater extends BlockFluidClassic implements IName
 	{
 		world.playSound(null, pos.add(0.5, 0.5, 0.5), new SoundEvent(new ResourceLocation("random.fizz")), SoundCategory.AMBIENT, 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 
-		if (amount < output.stackSize * amount)
-			amount *= output.stackSize;
+		if (amount < output.getCount() * amount)
+			amount *= output.getCount();
 
 		for (int q = 0; q < amount; q++)
 			itemEntity.entityDropItem(new ItemStack(output.getItem(), 1, output.getItemDamage()), 0F);

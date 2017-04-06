@@ -87,7 +87,7 @@ public class ConfigHandler
 	public void alertPlayer(PlayerLoggedInEvent joinEvent)
 	{
 		if (invalidEntry.size() > 0)
-			joinEvent.player.addChatComponentMessage(new TextComponentTranslation("[Hot Water] %s is not a valid entry", invalidEntry.toString()));
+			joinEvent.player.sendMessage(new TextComponentTranslation("[Hot Water] %s is not a valid entry", invalidEntry.toString()));
 	}
 
 }

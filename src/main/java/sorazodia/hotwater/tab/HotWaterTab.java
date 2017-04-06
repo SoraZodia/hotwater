@@ -2,6 +2,7 @@ package sorazodia.hotwater.tab;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import sorazodia.hotwater.registry.ItemRegistry;
@@ -16,9 +17,9 @@ public class HotWaterTab extends CreativeTabs
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public Item getTabIconItem() 
+	public ItemStack getTabIconItem() 
 	{
-        return ItemRegistry.hotWaterBucket;
+        return new ItemStack(ItemRegistry.hotWaterBucket);
     }
 
 }

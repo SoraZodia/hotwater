@@ -81,7 +81,7 @@ public class ItemSuperLavaBucket extends ItemModBucket
 				break;
 			}
 
-			entity.attackEntityFrom(DamageSource.lava, damage);
+			entity.attackEntityFrom(DamageSource.LAVA, damage);
 			entity.setFire(duration);
 		}
 	}

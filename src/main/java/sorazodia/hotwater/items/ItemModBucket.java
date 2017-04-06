@@ -33,32 +33,34 @@ public class ItemModBucket extends ItemFluidContainer
 	 * pressed. Args: itemStack, world, entityPlayer
 	 */
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand)
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
 	{
 		boolean flag = false;
 		RayTraceResult mouseLocation = this.rayTrace(world, player, flag);
+		ItemStack stack = player.getHeldItem(hand);
 
 		if (mouseLocation == null)
 		{
-			return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStack);
+			return new ActionResult<ItemStack>(EnumActionResult.PASS, stack);
 		}
 		else
 		{
-			FillBucketEvent event = new FillBucketEvent(player, itemStack, world, mouseLocation);
+			FillBucketEvent event = new FillBucketEvent(player, stack, world, mouseLocation);
 			if (MinecraftForge.EVENT_BUS.post(event))
 			{
-				return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStack);
+				return new ActionResult<ItemStack>(EnumActionResult.PASS, stack);
 			}
 
 			if (event.getResult() == Event.Result.ALLOW)
 			{
 				if (player.capabilities.isCreativeMode)
 				{
-					return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStack);
+					return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
 				}
 
-				if (--itemStack.stackSize <= 0)
+				if (stack.getCount() - 1 <= 0)
 				{
+					stack.setCount(stack.getCount() - 1);
 					return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, event.getEmptyBucket());
 				}
 
@@ -67,7 +69,7 @@ public class ItemModBucket extends ItemFluidContainer
 					player.dropItem(event.getFilledBucket(), false);
 				}
 
-				return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStack);
+				return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
 			}
 			if (mouseLocation.typeOfHit == RayTraceResult.Type.BLOCK)
 			{
@@ -76,23 +78,23 @@ public class ItemModBucket extends ItemFluidContainer
 
 				if (!world.canMineBlockBody(player, pos))
 				{
-					return new ActionResult<ItemStack>(EnumActionResult.FAIL, itemStack);
+					return new ActionResult<ItemStack>(EnumActionResult.FAIL, stack);
 				}
 				else
 				{
-					if (!player.canPlayerEdit(pos, mouseLocation.sideHit, itemStack))
+					if (!player.canPlayerEdit(pos, mouseLocation.sideHit, stack))
 					{
-						return new ActionResult<ItemStack>(EnumActionResult.FAIL, itemStack);
+						return new ActionResult<ItemStack>(EnumActionResult.FAIL, stack);
 					}
 					
 					world.playSound(null, pos.add(0.5, 0.5, 0.5), this.getPourSound(), SoundCategory.BLOCKS, 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 					
-					return pour(pos, player, world, itemStack);
+					return pour(pos, player, world, stack);
 
 				}
 			}
 
-			return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStack);
+			return new ActionResult<ItemStack>(EnumActionResult.PASS, stack);
 		}
 	}
 	
