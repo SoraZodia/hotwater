@@ -1,5 +1,5 @@
 {
-	"parent": "hot_water:item/itemRoot",
+	"parent": "hot_water:item/itemroot",
 	"textures": {
 		"layer0": "hot_water:items/bucket_hot_water"
 	}

@@ -21,9 +21,9 @@ public class LiquidRegistry
 	public static final String SPRING_WATER_NAME = "hot_spring_water";
 
 	//Fluids
-	public static Fluid hotWater = new Fluid(WATER_NAME, new ResourceLocation(HotWater.MODID + ":blocks/hotWaterStill"), new ResourceLocation(HotWater.MODID + ":blocks/hotWaterFlow")).setDensity(999).setTemperature(373).setViscosity(682);
+	public static Fluid hotWater = new Fluid(WATER_NAME, new ResourceLocation(HotWater.MODID + ":blocks/hotwaterstill"), new ResourceLocation(HotWater.MODID + ":blocks/hotwaterflow")).setDensity(999).setTemperature(373).setViscosity(682);
 	public static Fluid superlava = new Fluid(SUPERLAVA_NAME, new ResourceLocation("blocks/lava_still"), new ResourceLocation("blocks/lava_flow")).setDensity(999).setTemperature(6150).setViscosity(682);
-	public static Fluid springWater = new Fluid(SPRING_WATER_NAME, new ResourceLocation(HotWater.MODID + ":blocks/springWaterStill"), new ResourceLocation(HotWater.MODID + ":blocks/hotWaterFlow")).setDensity(999).setTemperature(373).setViscosity(682);
+	public static Fluid springWater = new Fluid(SPRING_WATER_NAME, new ResourceLocation(HotWater.MODID + ":blocks/springwaterstill"), new ResourceLocation(HotWater.MODID + ":blocks/hotwaterflow")).setDensity(999).setTemperature(373).setViscosity(682);
 	
 	//Blocks
 	public static Block blockHotWater;

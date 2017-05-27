@@ -77,8 +77,8 @@ public class HotWater
 		MinecraftForge.EVENT_BUS.register(config);
 
 		GameRegistry.registerFuelHandler(new FuelHandler());
-
-		addBiome(new BiomeHotSpring(), 10, BiomeType.ICY, Type.COLD);
+		
+		this.addBiome(new BiomeHotSpring(), 30, BiomeType.ICY);
 	}
 
 	@EventHandler
@@ -108,10 +108,9 @@ public class HotWater
 		log.info("Loaded");
 	}
 	
-	private void addBiome(Biome biome, int weight, BiomeType biomeType, Type type)
+	private void addBiome(Biome biome, int weight, BiomeType biomeType)
 	{
 		BiomeManager.addBiome(biomeType, new BiomeEntry(biome, weight));
-		BiomeDictionary.addTypes(biome, type);
 	}
 	
 	public static FoodPaser getScanner()

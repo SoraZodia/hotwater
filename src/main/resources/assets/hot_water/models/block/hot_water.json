@@ -2,7 +2,7 @@
    "parent": "block/cube_all",
    "textures": 
    { 
-        "all": "hot_water:blocks/hotWaterStill",
-		"flowing": "hot_water:blocks/hotWaterFlow"
+        "all": "hot_water:blocks/hotwaterstill",
+		"flowing": "hot_water:blocks/hotwaterflow"
    }
  }
