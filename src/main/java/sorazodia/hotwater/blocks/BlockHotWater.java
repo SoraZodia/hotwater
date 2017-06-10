@@ -95,23 +95,23 @@ public class BlockHotWater extends BlockFluidClassic implements IName
 	@Override
 	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random)
 	{
-		if (random.nextInt(2) != 0)
-			return;
 
-		if ((world.getBlockState(pos.down(2)).getBlock() == Blocks.LAVA || world.getBlockState(pos.down(2)).getBlock() == LiquidRegistry.blockSuperLava))
+		if (random.nextInt(20) == 0 && (world.getBlockState(pos.down(2)).getBlock() == Blocks.LAVA || world.getBlockState(pos.down(2)).getBlock() == LiquidRegistry.blockSuperLava))
 		{
 			Material material = world.getBlockState(pos.down(1)).getMaterial();
 			if (material == Material.GROUND || material == Material.ROCK)
 				world.setBlockState(pos, LiquidRegistry.blockSpringWater.getDefaultState());
-		}
-
-		for (int l = 0; l < 2; l++)
+		}		
+		
+		if (random.nextInt(2) == 0)
 		{
-			double x = pos.getX() + random.nextFloat();
-			double y = pos.getY() + 1.2;
-			double z = pos.getZ() + random.nextFloat();
-			world.spawnParticle(EnumParticleTypes.CLOUD, x, y, z, 0.0, 0.1, 0.0);
+			for (int l = 0; l < 2; l++)
+			{
+				double x = pos.getX() + random.nextFloat();
+				double y = pos.getY() + 1.2;
+				double z = pos.getZ() + random.nextFloat();
+				world.spawnParticle(EnumParticleTypes.CLOUD, x, y, z, 0.0, 0.1, 0.0);
+			}
 		}
 	}
-
 }
