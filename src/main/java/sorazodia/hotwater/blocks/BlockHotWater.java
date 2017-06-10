@@ -7,6 +7,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
@@ -19,6 +20,7 @@ import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 import sorazodia.hotwater.config.BoilList;
 import sorazodia.hotwater.main.HotWater;
+import sorazodia.hotwater.registry.LiquidRegistry;
 
 public class BlockHotWater extends BlockFluidClassic implements IName
 {
@@ -95,6 +97,13 @@ public class BlockHotWater extends BlockFluidClassic implements IName
 	{
 		if (random.nextInt(2) != 0)
 			return;
+
+		if ((world.getBlockState(pos.down(2)).getBlock() == Blocks.LAVA || world.getBlockState(pos.down(2)).getBlock() == LiquidRegistry.blockSuperLava))
+		{
+			Material material = world.getBlockState(pos.down(1)).getMaterial();
+			if (material == Material.GROUND || material == Material.ROCK)
+				world.setBlockState(pos, LiquidRegistry.blockSpringWater.getDefaultState());
+		}
 
 		for (int l = 0; l < 2; l++)
 		{
