@@ -7,7 +7,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
@@ -93,16 +92,21 @@ public class BlockHotWater extends BlockFluidClassic implements IName
 	}
 
 	@Override
-	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random)
-	{
-
-		if (random.nextInt(20) == 0 && (world.getBlockState(pos.down(2)).getBlock() == Blocks.LAVA || world.getBlockState(pos.down(2)).getBlock() == LiquidRegistry.blockSuperLava))
+	public void updateTick(World world, BlockPos pos, IBlockState state, Random random)
+    {
+		super.updateTick(world, pos, state, random);
+		
+		if (random.nextInt(2) == 0 && (world.getBlockState(pos.down(2)).getMaterial() == Material.LAVA))
 		{
 			Material material = world.getBlockState(pos.down(1)).getMaterial();
 			if (material == Material.GROUND || material == Material.ROCK)
 				world.setBlockState(pos, LiquidRegistry.blockSpringWater.getDefaultState());
-		}		
-		
+		}	
+    }
+	
+	@Override
+	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random)
+	{		
 		if (random.nextInt(2) == 0)
 		{
 			for (int l = 0; l < 2; l++)
